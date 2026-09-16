@@ -1,0 +1,2570 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍭 Candycore Shop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #ff6eb4;
+  --pink-light: #ffb3d9;
+  --pink-pale: #fff0f7;
+  --purple: #c77dff;
+  --purple-light: #e8c6ff;
+  --mint: #5ce1e6;
+  --yellow: #ffd166;
+  --cream: #fff9f0;
+  --dark: #3d1b54;
+  --text: #4a1c5d;
+  --text-light: #7d528f;
+  --white: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --shadow: 0 8px 32px 0 rgba(199, 125, 255, 0.12);
+  --shadow-hover: 0 12px 40px 0 rgba(255, 110, 180, 0.28);
+  --radius: 24px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: url('images/shopbackground.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: var(--text);
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Lớp phủ pastel mờ để đảm bảo chữ dễ đọc trên nền ảnh */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,245,248,0.5) 0%, rgba(240,245,255,0.4) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── NAVBAR (GLASSMORPHISM) ── */
+.navbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1.5px solid rgba(255, 179, 217, 0.4);
+  padding: 0 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 70px;
+  box-shadow: 0 8px 32px 0 rgba(255, 110, 180, 0.08);
+}
+
+.nav-logo {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.6rem;
+  color: var(--pink);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 0.8rem;
+  transition: transform 0.2s;
+}
+.nav-logo-img {
+  height: 42px;
+  width: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(255, 110, 180, 0.15);
+}
+.nav-logo:hover { transform: scale(1.03); }
+
+.nav-links { display: flex; gap: 0.6rem; align-items: center; }
+
+.nav-btn {
+  background: none; border: none; cursor: pointer;
+  font-family: 'Nunito', sans-serif; font-size: 0.95rem; font-weight: 800;
+  color: var(--text-light); padding: 0.6rem 1.2rem; border-radius: 50px;
+  transition: all 0.25s ease;
+}
+.nav-btn:hover { background: rgba(255, 110, 180, 0.12); color: var(--pink); }
+.nav-btn.active { background: var(--pink); color: white; box-shadow: 0 4px 15px rgba(255,110,180,0.3); }
+
+.nav-btn.cart-btn {
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: white; position: relative;
+  box-shadow: 0 4px 15px rgba(199,125,255,0.3);
+}
+.nav-btn.cart-btn:hover { opacity: 0.95; transform: translateY(-1px); }
+
+.cart-count {
+  position: absolute; top: -6px; right: -6px;
+  background: var(--yellow); color: var(--dark);
+  border-radius: 50%; width: 22px; height: 22px;
+  font-size: 0.75rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.nav-user { display: flex; align-items: center; gap: 0.6rem; }
+.nav-avatar {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 800; font-size: 0.9rem;
+  box-shadow: 0 2px 10px rgba(199,125,255,0.25);
+}
+
+/* ── PAGES ── */
+.page { display: none; padding: 2.5rem 1.5rem; max-width: 1240px; margin: 0 auto; position: relative; z-index: 1; }
+.page.active { display: block; animation: fadeIn 0.4s ease-out; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 0;
+  overflow: hidden;
+  background: none;
+  border-radius: var(--radius); margin-bottom: 2.5rem;
+  border: 1.5px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hero:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+.hero-banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ── FILTERS & LAYOUT ── */
+.shop-layout {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+  align-items: flex-start;
+}
+
+.shop-sidebar {
+  width: 250px;
+  flex-shrink: 0;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 100px;
+  z-index: 10;
+}
+.sidebar-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.2rem;
+  color: var(--pink);
+  margin-bottom: 1.2rem;
+  font-weight: 800;
+  border-bottom: 2px solid rgba(255, 110, 180, 0.15);
+  padding-bottom: 0.5rem;
+}
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.filter-btn {
+  padding: 0.75rem 1.2rem; border-radius: 12px;
+  border: 1px solid var(--glass-border); background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  color: var(--text-light); font-family: 'Nunito', sans-serif;
+  font-weight: 800; font-size: 0.9rem; cursor: pointer; transition: all 0.25s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  border-color: transparent; color: white;
+  box-shadow: 0 4px 15px rgba(255,110,180,0.3);
+}
+
+.shop-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.shop-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  box-shadow: var(--shadow);
+}
+.sort-options {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.sort-title {
+  font-weight: 800;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  margin-right: 0.4rem;
+}
+.sort-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--text-light);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.sort-btn:hover, .sort-btn.active {
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 4px 12px rgba(255,110,180,0.25);
+}
+
+.search-box {
+  width: 250px; max-width: 100%;
+  padding: 0.6rem 1.4rem; border-radius: 50px;
+  border: 1.5px solid var(--pink-light); font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem; font-weight: 700; outline: none; transition: all 0.25s;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+.search-box:focus { border-color: var(--pink); background: white; box-shadow: 0 0 15px rgba(255,110,180,0.15); }
+
+@media (max-width: 900px) {
+  .shop-layout {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .shop-sidebar {
+    width: 100%;
+    position: static;
+  }
+  .category-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .category-list .filter-btn {
+    width: auto;
+  }
+  .shop-topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  .search-box {
+    width: 100%;
+  }
+}
+
+/* ── PRODUCTS GRID ── */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.5rem;
+}
+
+.product-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow);
+  overflow: hidden; cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  display: flex; flex-direction: column;
+}
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(255, 110, 180, 0.4);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.product-img {
+  width: 100%; aspect-ratio: 1;
+  background: rgba(255, 240, 247, 0.5);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 4rem; overflow: hidden; position: relative;
+  border-bottom: 1.5px solid rgba(255, 110, 180, 0.1);
+}
+.product-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.product-card:hover .product-img img { transform: scale(1.08); }
+.product-img .emoji-fallback { font-size: 4.5rem; }
+
+.sale-badge {
+  position: absolute; top: 12px; right: 12px;
+  background: var(--pink); color: white;
+  padding: 0.25rem 0.7rem; border-radius: 50px;
+  font-size: 0.8rem; font-weight: 800;
+  box-shadow: 0 4px 10px rgba(255,110,180,0.3);
+}
+
+.product-info { padding: 1.2rem; display: flex; flex-direction: column; flex-grow: 1; }
+.product-name {
+  font-weight: 800; font-size: 1.05rem; margin-bottom: 0.4rem;
+  color: var(--text); line-height: 1.3;
+}
+.product-character { font-size: 0.85rem; font-weight: 700; color: var(--text-light); margin-bottom: 0.6rem; }
+.product-price { display: flex; gap: 0.6rem; align-items: center; margin-bottom: 1rem; }
+.price-current { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--pink); }
+.price-original { font-size: 0.9rem; color: #b59ebc; text-decoration: line-through; }
+.stock-info { font-size: 0.82rem; font-weight: 700; color: var(--text-light); margin-bottom: 0.8rem; margin-top: auto; }
+
+.add-cart-btn {
+  width: 100%; padding: 0.75rem;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: white; border: none; border-radius: 50px;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.95rem;
+  cursor: pointer; transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(199,125,255,0.25);
+}
+.add-cart-btn:hover { opacity: 0.95; transform: scale(1.02); box-shadow: 0 6px 16px rgba(199,125,255,0.4); }
+.add-cart-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ── AUTH PAGES (GLASS CARD) ── */
+.auth-wrapper {
+  max-width: 440px; margin: 3rem auto;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  padding: 3rem 2.5rem; box-shadow: 0 15px 35px rgba(199, 125, 255, 0.15);
+  border: 1px solid var(--glass-border);
+}
+.auth-wrapper h2 {
+  font-family: 'Fredoka One', cursive;
+  color: var(--pink); font-size: 2.2rem; text-align: center; margin-bottom: 0.4rem;
+}
+.auth-subtitle { text-align: center; color: var(--text-light); font-size: 0.95rem; margin-bottom: 2rem; font-weight: 600; }
+
+.form-group { margin-bottom: 1.3rem; }
+.form-label { display: block; font-weight: 800; font-size: 0.9rem; color: var(--text); margin-bottom: 0.5rem; }
+.form-input {
+  width: 100%; padding: 0.8rem 1.2rem;
+  border: 1.5px solid var(--pink-light); border-radius: 14px;
+  font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 700;
+  outline: none; transition: all 0.25s; background: rgba(255, 255, 255, 0.7);
+  color: var(--text);
+}
+.form-input:focus { border-color: var(--pink); background: white; box-shadow: 0 0 12px rgba(255,110,180,0.15); }
+
+.btn-primary {
+  width: 100%; padding: 0.9rem;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: white; border: none; border-radius: 50px;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.05rem;
+  cursor: pointer; transition: all 0.25s; margin-top: 0.8rem;
+  box-shadow: 0 6px 18px rgba(255,110,180,0.3);
+}
+.btn-primary:hover { opacity: 0.95; transform: translateY(-2px); box-shadow: 0 8px 22px rgba(255,110,180,0.45); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.auth-switch { text-align: center; margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-light); font-weight: 600; }
+.auth-switch a { color: var(--pink); font-weight: 800; cursor: pointer; text-decoration: none; }
+.auth-switch a:hover { text-decoration: underline; }
+
+.alert {
+  padding: 0.9rem 1.2rem; border-radius: 14px; margin-bottom: 1.2rem;
+  font-size: 0.95rem; font-weight: 700; display: none;
+}
+.alert.error { background: #ffebeb; color: #e74c3c; border: 1.5px solid #ffcccc; display: block; }
+.alert.success { background: #eaffed; color: #2ecc71; border: 1.5px solid #ccffda; display: block; }
+
+/* ── CART PAGE ── */
+.cart-empty {
+  text-align: center; padding: 5rem 2rem;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  color: var(--text-light);
+}
+.cart-empty .empty-icon { font-size: 5rem; margin-bottom: 1.2rem; }
+
+.cart-grid { display: grid; grid-template-columns: 1fr 340px; gap: 1.8rem; align-items: start; }
+
+@media (max-width: 900px) {
+  .cart-grid { grid-template-columns: 1fr; }
+}
+
+.cart-items {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  padding: 1.8rem;
+  box-shadow: var(--shadow);
+}
+
+.cart-item {
+  display: flex; align-items: center; gap: 1.2rem;
+  padding: 1.2rem 0; border-bottom: 1.5px dashed rgba(199,125,255,0.15);
+}
+.cart-item:last-child { border-bottom: none; }
+
+.cart-item-img {
+  width: 70px; height: 70px; border-radius: 16px;
+  background: var(--pink-pale); overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--pink-light);
+}
+.cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+
+.cart-item-info { flex: 1; }
+.cart-item-name { font-weight: 800; font-size: 1rem; color: var(--text); margin-bottom: 0.3rem; }
+.cart-item-price { color: var(--text-light); font-weight: 700; font-size: 0.9rem; }
+
+.qty-control { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.5rem; }
+.qty-btn {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 1.5px solid var(--pink-light); background: white;
+  color: var(--pink); font-weight: 800; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.qty-btn:hover { background: var(--pink); color: white; border-color: transparent; }
+.qty-num { font-weight: 800; font-size: 0.95rem; width: 24px; text-align: center; }
+
+.remove-btn {
+  background: none; border: none; cursor: pointer;
+  font-size: 1.2rem; padding: 0.4rem; border-radius: 8px;
+  transition: background 0.2s;
+}
+.remove-btn:hover { background: #ffebeb; }
+
+.cart-summary {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  padding: 2rem 1.8rem;
+  box-shadow: var(--shadow);
+  position: sticky; top: 100px;
+}
+.cart-summary h3 { font-family: 'Fredoka One', cursive; color: var(--pink); font-size: 1.3rem; margin-bottom: 1.2rem; }
+
+.summary-row {
+  display: flex; justify-content: space-between; margin-bottom: 0.8rem;
+  font-weight: 700; font-size: 0.95rem; color: var(--text-light);
+}
+.summary-row.total {
+  margin-top: 1.2rem; padding-top: 1.2rem;
+  border-top: 2px solid rgba(199,125,255,0.15);
+  font-size: 1.25rem; font-weight: 800; color: var(--pink);
+}
+
+.summary-address { margin-top: 1.2rem; }
+.summary-address textarea {
+  width: 100%; padding: 0.8rem; border-radius: 12px;
+  border: 1.5px solid var(--pink-light); outline: none;
+  font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 700;
+  resize: vertical; min-height: 80px; background: rgba(255, 255, 255, 0.6);
+}
+.summary-address textarea:focus { border-color: var(--pink); background: white; }
+
+/* ── ORDERS ── */
+.order-card {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  padding: 1.8rem; margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+}
+.order-header {
+  display: flex; justify-content: space-between; align-items: start;
+  padding-bottom: 1.2rem; border-bottom: 1.5px dashed rgba(199,125,255,0.15);
+  margin-bottom: 1.2rem;
+}
+.order-id { font-weight: 800; font-size: 1.1rem; color: var(--pink); }
+.order-date { font-size: 0.85rem; color: var(--text-light); font-weight: 700; margin-top: 0.2rem; }
+
+.order-status {
+  padding: 0.4rem 1rem; border-radius: 50px; font-weight: 800; font-size: 0.85rem;
+}
+.order-status.status-PENDING { background: #fff3cd; color: #856404; }
+.order-status.status-CONFIRMED { background: #d1ecf1; color: #0c5460; }
+.order-status.status-SHIPPING { background: #cce5ff; color: #004085; }
+.order-status.status-DELIVERED { background: #d4edda; color: #155724; }
+.order-status.status-CANCELLED { background: #f8d7da; color: #721c24; }
+
+.order-items-list { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.2rem; }
+.order-item-chip {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--pink-light);
+  padding: 0.35rem 0.8rem; border-radius: 50px;
+  font-size: 0.85rem; font-weight: 800; color: var(--text);
+}
+.order-total { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--pink); }
+
+/* ── PROFILE CARD ── */
+.profile-card {
+  max-width: 520px; margin: 2rem auto;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  padding: 3rem 2.5rem; box-shadow: var(--shadow);
+  border: 1px solid var(--glass-border);
+  text-align: center;
+}
+.profile-avatar {
+  width: 90px; height: 90px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 800; font-size: 2.2rem;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 8px 25px rgba(199,125,255,0.3);
+}
+.profile-info p { margin-bottom: 0.6rem; font-size: 1.05rem; font-weight: 700; }
+
+/* ── ADMIN PANEL ── */
+.tab-navigation { display: flex; gap: 0.8rem; margin-bottom: 1.8rem; }
+.tab-btn {
+  padding: 0.6rem 1.4rem; border-radius: 50px;
+  border: 1.5px solid var(--pink-light); background: rgba(255,255,255,0.7);
+  color: var(--text-light); font-weight: 800; font-size: 0.9rem;
+  cursor: pointer; transition: all 0.2s;
+}
+.tab-btn.active, .tab-btn:hover { background: var(--pink); color: white; border-color: transparent; }
+
+.btn-add {
+  padding: 0.7rem 1.5rem; border-radius: 50px;
+  background: var(--mint); color: var(--dark);
+  font-weight: 800; font-size: 0.95rem; border: none; cursor: pointer;
+  margin-bottom: 1.5rem; transition: all 0.25s;
+  box-shadow: 0 4px 15px rgba(92,225,230,0.3);
+}
+.btn-add:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(92,225,230,0.45); }
+
+.admin-table-wrap {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+  overflow-x: auto; box-shadow: var(--shadow);
+  margin-bottom: 2rem;
+}
+table { width: 100%; border-collapse: collapse; text-align: left; }
+th {
+  background: rgba(255, 110, 180, 0.12);
+  color: var(--text); padding: 1.1rem;
+  font-weight: 800; font-size: 0.95rem;
+}
+td { padding: 1.1rem; border-bottom: 1.5px solid rgba(199,125,255,0.1); font-weight: 700; font-size: 0.9rem; }
+tr:hover td { background: rgba(255,110,180,0.03); }
+
+.btn-sm {
+  padding: 0.4rem 0.8rem; border-radius: 8px; border: none;
+  font-weight: 800; font-size: 0.82rem; cursor: pointer; transition: all 0.2s;
+}
+.btn-sm.edit { background: #e1f5fe; color: #0288d1; }
+.btn-sm.edit:hover { background: #0288d1; color: white; }
+.btn-sm.del { background: #ffebee; color: #c62828; }
+.btn-sm.del:hover { background: #c62828; color: white; }
+
+/* ── MODALS (GLASSMORPHISM) ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(61, 27, 84, 0.45);
+  backdrop-filter: blur(6px);
+  display: none; align-items: center; justify-content: center;
+  padding: 1.5rem;
+}
+.modal-overlay.open { display: flex; animation: overlayIn 0.3s ease-out; }
+
+@keyframes overlayIn {
+  from { opacity: 0; } to { opacity: 1; }
+}
+
+.modal {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: var(--radius);
+  width: 100%; max-width: 520px;
+  box-shadow: 0 20px 50px rgba(61,27,84,0.3);
+  border: 1px solid var(--glass-border);
+  padding: 2.2rem 2.5rem;
+  max-height: 90vh; overflow-y: auto;
+  animation: modalIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1.5rem; padding-bottom: 0.8rem;
+  border-bottom: 1.5px solid rgba(199,125,255,0.15);
+}
+.modal-header h3 { font-family: 'Fredoka One', cursive; color: var(--pink); font-size: 1.35rem; }
+.modal-close { background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--text-light); }
+.modal-close:hover { color: var(--pink); }
+
+/* ── TOAST ── */
+#toast {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px);
+  background: var(--dark); color: white;
+  padding: 0.9rem 2.2rem; border-radius: 50px;
+  font-weight: 800; font-size: 0.95rem; z-index: 10000;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  opacity: 0; pointer-events: none;
+}
+#toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+#toast.success { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+#toast.error { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+
+/* ── LOADING SPIN OVERLAY ── */
+#loading {
+  position: fixed; inset: 0; z-index: 10000;
+  background: rgba(255,255,255,0.65);
+  backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center;
+}
+#loading.show { display: flex; }
+.spinner {
+  width: 48px; height: 48px;
+  border: 4px solid var(--pink-light);
+  border-top-color: var(--pink);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .navbar { padding: 0 1.2rem; }
+  .page { padding: 1.5rem 1rem; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+  .product-info { padding: 0.8rem; }
+  .product-name { font-size: 0.95rem; }
+}
+
+/* ── SHOP FOOTER ── */
+.shop-footer {
+  margin-top: 4rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--glass-border);
+  padding: 3rem 2rem 1.5rem 2rem;
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.03);
+}
+
+/* Cam kết dịch vụ */
+.footer-commitments {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem auto;
+  border-bottom: 1px solid rgba(255, 110, 180, 0.15);
+  padding-bottom: 2.5rem;
+}
+.commitment-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.commitment-icon {
+  font-size: 2.2rem;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+}
+.commitment-text strong {
+  display: block;
+  font-size: 1.05rem;
+  color: var(--pink-dark);
+  font-weight: 800;
+  margin-bottom: 0.2rem;
+}
+.commitment-text p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+/* Nội dung footer chính */
+.footer-main-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.footer-main-section {
+  flex: 1 1 200px;
+}
+.brand-section {
+  flex: 2 1 280px;
+}
+.footer-brand {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--pink);
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+.brand-desc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-light);
+  font-weight: 600;
+}
+.footer-main-section h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  color: var(--pink-dark);
+  margin-bottom: 1.2rem;
+  font-weight: 800;
+}
+.footer-main-section p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 0.8rem;
+  line-height: 1.5;
+  font-weight: 600;
+}
+.footer-main-section a {
+  color: var(--text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.footer-main-section a:hover {
+  color: var(--pink);
+}
+.footer-main-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-main-section ul li {
+  margin-bottom: 0.8rem;
+}
+.footer-main-section ul li a {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.footer-main-section ul li a:hover {
+  color: var(--pink);
+  padding-left: 4px;
+}
+
+/* Bản quyền dưới cùng */
+.footer-bottom-bar {
+  text-align: center;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 110, 180, 0.1);
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+/* ── PAYMENT & SHIPPING OPTIONS ── */
+.checkout-section-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1rem;
+  color: var(--pink);
+  margin: 1.2rem 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.option-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+.option-card {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem 1rem;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1.5px solid var(--pink-light);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-weight: 700;
+  font-size: 0.88rem;
+  user-select: none;
+}
+.option-card:hover {
+  background: rgba(255, 110, 180, 0.03);
+  border-color: var(--pink);
+}
+.option-card input[type="radio"] {
+  accent-color: var(--pink);
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+.option-card.active {
+  background: var(--pink-pale) !important;
+  border-color: var(--pink) !important;
+  box-shadow: 0 4px 12px rgba(255, 110, 180, 0.08);
+}
+.option-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.option-meta {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  font-weight: 600;
+  margin-top: 0.1rem;
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+<span class="nav-logo" onclick="navigate('shop')" style="cursor:pointer"><img src="logo/logomuseum.png" alt="Candycore Museum Logo" class="nav-logo-img">Candycore Shop</span>  <div class="nav-links" id="navLinks">
+    <button class="nav-btn active" onclick="navigate('shop')" id="nav-shop">Shop</button>
+    <button class="nav-btn" onclick="navigate('orders')" id="nav-orders" style="display:none">Đơn hàng</button>
+    <button class="nav-btn" onclick="navigate('admin')" id="nav-admin" style="display:none">Admin</button>
+    <button class="nav-btn" onclick="navigate('login')" id="nav-login">🔑 Đăng nhập</button>
+    <div class="nav-user" id="navUser" style="display:none">
+      <div class="nav-avatar" id="navAvatar">?</div>
+      <button class="nav-btn" onclick="navigate('profile')" id="nav-profile">Tài khoản</button>
+      <button class="nav-btn" onclick="logout()" style="color:#e74c3c">Đăng xuất</button>
+    </div>
+    <button class="nav-btn cart-btn" onclick="navigate('cart')">
+      🛒 <span id="cartCount" class="cart-count">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loading"><div class="spinner"></div></div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ════════════ PAGE: SHOP ════════════ -->
+<div class="page active" id="page-shop">
+  <div class="hero">
+    <img src="images/shopbanner.jpg" alt="Candycore Shop Banner" class="hero-banner-img">
+  </div>
+
+  <div class="shop-layout">
+    <!-- Cột danh mục dọc bên trái -->
+    <aside class="shop-sidebar">
+      <h3 class="sidebar-title">Danh mục</h3>
+      <div class="category-list">
+        <button class="filter-btn active" onclick="filterCategory('all', this, event)">Tất cả</button>
+        <button class="filter-btn" onclick="filterCategory('plush', this, event)">Gấu bông</button>
+        <button class="filter-btn" onclick="filterCategory('accessories', this, event)">Phụ kiện</button>
+        <button class="filter-btn" onclick="filterCategory('stationery', this, event)">Văn phòng phẩm</button>
+        <button class="filter-btn" onclick="filterCategory('apparel', this, event)">Quần áo</button>
+        <button class="filter-btn" onclick="filterCategory('homeware', this, event)">Đồ gia dụng</button>
+      </div>
+    </aside>
+
+    <!-- Khu vực nội dung chính bên phải -->
+    <main class="shop-main">
+      <!-- Hàng ngang bộ lọc sắp xếp bên trên -->
+      <div class="shop-topbar">
+        <div class="sort-options">
+          <input class="search-box" type="text" placeholder="🔍 Tìm sản phẩm..." oninput="searchProducts(this.value, event)" id="searchInput" autocomplete="off" style="width: 220px; margin-right: 1rem;">
+          <button class="sort-btn active" onclick="changeSort('best_selling', this)">Bán chạy</button>
+          <button class="sort-btn" onclick="changeSort('price_desc', this)">Giá: Cao → Thấp</button>
+          <button class="sort-btn" onclick="changeSort('price_asc', this)">Giá: Thấp → Cao</button>
+          <button class="sort-btn" onclick="changeSort('newest', this)">Mới nhất</button>
+          <button class="sort-btn" onclick="changeSort('popular', this)">Phổ biến</button>
+        </div>
+      </div>
+
+      <!-- Lưới sản phẩm -->
+      <div class="products-grid" id="productsGrid">
+        <div style="text-align:center;padding:3rem;grid-column:1/-1;color:var(--text-light)">⏳ Đang tải sản phẩm...</div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ════════════ PAGE: LOGIN ════════════ -->
+<div class="page" id="page-login">
+  <div class="auth-wrapper">
+    <h2>🔑 Đăng nhập</h2>
+    <p class="auth-subtitle">Chào mừng trở lại Candycore Shop! 🌸</p>
+    <div class="alert" id="loginAlert"></div>
+    <div class="form-group">
+      <label class="form-label">Tên đăng nhập</label>
+      <input class="form-input" type="text" id="loginUsername" placeholder="username" autocomplete="username">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Mật khẩu</label>
+      <input class="form-input" type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn-primary" onclick="doLogin()" id="loginBtn">Đăng nhập 🌸</button>
+    <div class="auth-switch">Chưa có tài khoản? <a onclick="navigate('register')">Đăng ký ngay</a></div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE: REGISTER ════════════ -->
+<div class="page" id="page-register">
+  <div class="auth-wrapper">
+    <h2>✨ Đăng ký</h2>
+    <p class="auth-subtitle">Tạo tài khoản để mua hàng dễ dàng hơn! 💝</p>
+    <div class="alert" id="regAlert"></div>
+    <div class="form-group">
+      <label class="form-label">Tên đăng nhập *</label>
+      <input class="form-input" type="text" id="regUsername" placeholder="username">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Họ tên *</label>
+      <input class="form-input" type="text" id="regFullName" placeholder="Nguyễn Văn A">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email *</label>
+      <input class="form-input" type="email" id="regEmail" placeholder="example@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Mật khẩu *</label>
+      <input class="form-input" type="password" id="regPassword" placeholder="Ít nhất 6 ký tự">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Số điện thoại</label>
+      <input class="form-input" type="tel" id="regPhone" placeholder="0901234567">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Địa chỉ</label>
+      <input class="form-input" type="text" id="regAddress" placeholder="Số nhà, đường, phường, quận...">
+    </div>
+    <button class="btn-primary" onclick="doRegister()" id="regBtn">Đăng ký 🌸</button>
+    <div class="auth-switch">Đã có tài khoản? <a onclick="navigate('login')">Đăng nhập</a></div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE: CART ════════════ -->
+<div class="page" id="page-cart">
+  <h2 class="section-title">🛒 Giỏ hàng</h2>
+  <div id="cartContent"></div>
+</div>
+
+<!-- ════════════ PAGE: ORDERS ════════════ -->
+<div class="page" id="page-orders">
+  <h2 class="section-title">Đơn hàng của tôi</h2>
+  <div id="ordersContent"></div>
+</div>
+
+<!-- ════════════ PAGE: PROFILE ════════════ -->
+<div class="page" id="page-profile">
+  <h2 class="section-title">👤 Tài khoản</h2>
+  <div class="profile-card">
+    <div class="profile-avatar" id="profileAvatar">?</div>
+    <div id="profileInfo"></div>
+  </div>
+</div>
+
+<!-- ════════════ PAGE: ADMIN ════════════ -->
+<div class="page" id="page-admin">
+  <h2 class="section-title">Quản trị</h2>
+  <div class="admin-tabs">
+    <button class="tab-btn active" onclick="adminTab('products', this)">Sản phẩm</button>
+    <button class="tab-btn" onclick="adminTab('orders-admin', this)">Đơn hàng</button>
+    <button class="tab-btn" onclick="adminTab('revenue', this)">Doanh thu</button>
+  </div>
+  <div id="adminContent"></div>
+</div>
+
+<!-- ════════════ MODAL: PRODUCT DETAIL ════════════ -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modalProductName">Sản phẩm</h3>
+      <button class="modal-close" onclick="closeModal('productModal')">✕</button>
+    </div>
+    <div id="modalProductBody"></div>
+  </div>
+</div>
+
+<!-- ════════════ MODAL: ADD/EDIT PRODUCT ════════════ -->
+<div class="modal-overlay" id="productFormModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="productFormTitle">Thêm sản phẩm</h3>
+      <button class="modal-close" onclick="closeModal('productFormModal')">✕</button>
+    </div>
+    <div class="alert" id="productFormAlert"></div>
+    <div class="form-group"><label class="form-label">Tên sản phẩm *</label><input class="form-input" id="pf-name"></div>
+    <div class="form-group"><label class="form-label">Giá (VNĐ) *</label><input class="form-input" type="number" id="pf-price"></div>
+    <div class="form-group"><label class="form-label">Giá gốc (để trống nếu không giảm)</label><input class="form-input" type="number" id="pf-original-price"></div>
+    <div class="form-group"><label class="form-label">Mô tả</label><input class="form-input" id="pf-desc"></div>
+    <div class="form-group"><label class="form-label">URL hình ảnh</label><input class="form-input" id="pf-image"></div>
+    <div class="form-group">
+      <label class="form-label">Danh mục</label>
+      <select class="form-input" id="pf-category">
+        <option value="plush">Gấu bông</option>
+        <option value="accessories">Phụ kiện</option>
+        <option value="stationery">Văn phòng phẩm</option>
+        <option value="apparel">Quần áo</option>
+        <option value="homeware">Đồ gia dụng</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Nhân vật</label><input class="form-input" id="pf-character" placeholder="Hello Kitty, Kuromi..."></div>
+    <div class="form-group"><label class="form-label">Tồn kho</label><input class="form-input" type="number" id="pf-stock" value="0"></div>
+    <input type="hidden" id="pf-id">
+    <button class="btn-primary" onclick="saveProduct()">Lưu sản phẩm 💾</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="shop-footer">
+  <!-- Phần cam kết dịch vụ (4 cột ngang) -->
+  <div class="footer-commitments">
+    <div class="commitment-item">
+      <div class="commitment-text">
+        <strong>Giao hàng miễn phí toàn quốc</strong>
+      </div>
+    </div>
+    <div class="commitment-item">
+      <div class="commitment-text">
+        <strong>100% Chính hãng</strong>
+        <p>Bản quyền từ Sanrio</p>
+      </div>
+    </div>
+    <div class="commitment-item">
+      <div class="commitment-text">
+        <strong>Đổi trả dễ dàng</strong>
+        <p>Trong vòng 7 ngày</p>
+      </div>
+    </div>
+    <div class="commitment-item">
+      <div class="commitment-text">
+        <strong>Quà tặng ngọt ngào</strong>
+        <p>Tặng kèm sticker xinh xắn</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phần liên kết & thông tin chi tiết (5 cột) -->
+  <div class="footer-main-container">
+    
+    <!-- Cột 1: Giới thiệu candycore -->
+    <div class="footer-main-section brand-section">
+      <h2 class="footer-brand">candycore.</h2>
+      <p class="brand-desc">Cửa hàng quà tặng và đồ lưu niệm chính thức của Candycore Museum. Thế giới phụ kiện, gấu bông Sanrio chính hãng siêu ngọt ngào.</p>
+    </div>
+
+    <!-- Cột 2: Liên hệ -->
+    <div class="footer-main-section">
+      <h4>Liên hệ</h4>
+      <p>📞 <a href="tel:19006789">1900 6789</a></p>
+      <p>✉️ <a href="mailto:candycorevietnam@gmail.com">candycorevietnam@gmail.com</a></p>
+      <p>📍 Tầng 6, Toà nhà Toyota, 315 Trường Chinh, Hà Nội</p>
+    </div>
+
+    <!-- Cột 3: Về chúng tôi -->
+    <div class="footer-main-section">
+      <h4>Về chúng tôi</h4>
+      <ul>
+        <li><a href="about.html" target="_blank">Giới thiệu</a></li>
+        <li><a href="index.html#characters" target="_blank">Nhân vật trưng bày</a></li>
+        <li><a href="https://docs.google.com/forms/d/1F9CHkXn4mYqDu7yNZh3qEXF7-pGSPsW6sP7SlvZ17Wg/edit" target="_blank">Đặt vé tham quan</a></li>
+        <li><a href="#" target="_blank">Tuyển dụng</a></li>
+      </ul>
+    </div>
+
+    <!-- Cột 4: Hỗ trợ -->
+    <div class="footer-main-section">
+      <h4>Hỗ trợ</h4>
+      <ul>
+        <li><a href="#" target="_blank">Hướng dẫn mua hàng</a></li>
+        <li><a href="#" target="_blank">Hướng dẫn thanh toán</a></li>
+        <li><a href="#" target="_blank">Tra cứu đơn hàng</a></li>
+        <li><a href="#" target="_blank">Hỏi đáp - FAQ</a></li>
+      </ul>
+    </div>
+
+    <!-- Cột 5: Chính sách -->
+    <div class="footer-main-section">
+      <h4>Chính sách</h4>
+      <ul>
+        <li><a href="#" target="_blank">Chính sách giao hàng</a></li>
+        <li><a href="#" target="_blank">Chính sách đổi trả</a></li>
+        <li><a href="#" target="_blank">Chính sách bảo hành</a></li>
+        <li><a href="#" target="_blank">Chính sách bảo mật</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom-bar">
+    <p>© 2026 candycore. - Official Gift Shop. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════
+//  CONFIG
+// ══════════════════════════════════════════════
+const API = 'http://localhost:5002';
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+let state = {
+  user: null,
+  accessToken: null,
+  cart: JSON.parse(localStorage.getItem('candy_cart') || '[]'),
+  products: [],
+  currentCategory: 'all',
+  currentSearch: '',
+  currentSort: 'best_selling',
+  shippingMethod: 'FAST',
+  paymentMethod: 'COD'
+};
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', async () => {
+  const saved = localStorage.getItem('candy_token');
+  if (saved) {
+    state.accessToken = saved;
+    await loadCurrentUser();
+  }
+  updateCartBadge();
+  await loadProducts();
+  
+  // Tự động mở chi tiết sản phẩm nếu có tham số productId trên URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const pId = urlParams.get('productId');
+  if (pId) {
+    const productId = parseInt(pId);
+    navigate('shop');
+    showProductDetail(productId);
+  }
+});
+
+// ══════════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════════
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('page-' + page);
+  if (el) el.classList.add('active');
+  const nb = document.getElementById('nav-' + page);
+  if (nb) nb.classList.add('active');
+  window.scrollTo(0, 0);
+  
+if (page === 'shop' && !state.products.length) loadProducts();
+  if (page === 'cart') renderCart();
+  if (page === 'orders') loadOrders();
+  if (page === 'profile') renderProfile();
+  if (page === 'admin') { adminTab('products', document.querySelector('.tab-btn')); }
+}
+
+// ══════════════════════════════════════════════
+//  API HELPER
+// ══════════════════════════════════════════════
+async function api(method, path, body, auth = true) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (auth && state.accessToken) headers['Authorization'] = 'Bearer ' + state.accessToken;
+  const res = await fetch(API + path, {
+    method, headers, credentials: 'include',
+    body: body ? JSON.stringify(body) : undefined
+  });
+  const data = await res.json();
+  if (!res.ok) throw data;
+  return data;
+}
+
+// ══════════════════════════════════════════════
+//  AUTH
+// ══════════════════════════════════════════════
+async function doLogin() {
+  const btn = document.getElementById('loginBtn');
+  const alert = document.getElementById('loginAlert');
+  alert.className = 'alert';
+  btn.disabled = true; btn.textContent = '⏳ Đang đăng nhập...';
+  try {
+    const res = await api('POST', '/api/auth/signin', {
+      username: document.getElementById('loginUsername').value,
+      password: document.getElementById('loginPassword').value
+    }, false);
+    state.accessToken = res.data.accessToken;
+    state.user = res.data.user;
+    localStorage.setItem('candy_token', state.accessToken);
+    updateNavForUser();
+    showToast('🌸 Đăng nhập thành công!', 'success');
+    navigate('shop');
+  } catch(e) {
+    alert.className = 'alert error';
+    alert.textContent = e.message || 'Đăng nhập thất bại.';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Đăng nhập 🌸';
+  }
+}
+
+async function doRegister() {
+  const btn = document.getElementById('regBtn');
+  const alert = document.getElementById('regAlert');
+  alert.className = 'alert';
+  btn.disabled = true; btn.textContent = '⏳ Đang xử lý...';
+  try {
+    await api('POST', '/api/auth/signup', {
+      username: document.getElementById('regUsername').value,
+      fullName: document.getElementById('regFullName').value,
+      email: document.getElementById('regEmail').value,
+      password: document.getElementById('regPassword').value,
+      phoneNumber: document.getElementById('regPhone').value,
+      address: document.getElementById('regAddress').value
+    }, false);
+    alert.className = 'alert success';
+    alert.textContent = '✅ Đăng ký thành công! Đang chuyển đến trang đăng nhập...';
+    setTimeout(() => navigate('login'), 1500);
+  } catch(e) {
+    alert.className = 'alert error';
+    alert.textContent = e.message || 'Đăng ký thất bại.';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Đăng ký 🌸';
+  }
+}
+
+async function logout() {
+  try { await api('POST', '/api/auth/signout'); } catch(e) {}
+  state.accessToken = null; state.user = null;
+  state.cart = []; 
+  localStorage.removeItem('candy_token');
+  localStorage.removeItem('candy_cart');
+  updateCartBadge(); 
+  updateNavForUser();
+  showToast('👋 Đã đăng xuất!');
+  navigate('shop');
+}
+
+async function loadCurrentUser() {
+  try {
+    const res = await api('GET', '/api/auth/me');
+    state.user = res.data;
+    updateNavForUser();
+  } catch(e) {
+    state.accessToken = null; localStorage.removeItem('candy_token');
+  }
+}
+
+function updateNavForUser() {
+  const loggedIn = !!state.user;
+  document.getElementById('nav-login').style.display = loggedIn ? 'none' : '';
+  document.getElementById('navUser').style.display = loggedIn ? 'flex' : 'none';
+  document.getElementById('nav-orders').style.display = loggedIn ? '' : 'none';
+  document.getElementById('nav-admin').style.display = (loggedIn && state.user?.role === 'ADMIN') ? '' : 'none';
+  if (loggedIn) {
+    document.getElementById('navAvatar').textContent = (state.user.fullName || state.user.username)[0].toUpperCase();
+  }
+}
+
+// ══════════════════════════════════════════════
+//  PRODUCTS
+// ══════════════════════════════════════════════
+const EMOJI_MAP = { plush:'🧸', accessories:'👜', stationery:'✏️', apparel:'👕', homeware:'🏠' };
+
+// Wrapper để handle product card click
+function handleProductCardClick(productId) {
+  event?.preventDefault();
+  event?.stopPropagation();
+  console.log('📦 Product card clicked:', productId);
+  showProductDetail(productId);
+  return false;
+}
+
+function handleAddToCart(productId) {
+  event?.preventDefault();
+  event?.stopPropagation();
+  console.log('🛒 Add to cart clicked:', productId);
+  addToCart(productId);
+  return false;
+}
+
+async function loadProducts() {
+  try {
+    console.log('🔄 Calling loadProducts with:', { category: state.currentCategory, search: state.currentSearch, sortBy: state.currentSort });
+    const params = new URLSearchParams({ limit: 50 });
+    if (state.currentCategory !== 'all') params.set('category', state.currentCategory);
+    if (state.currentSearch) params.set('search', state.currentSearch);
+    if (state.currentSort) params.set('sortBy', state.currentSort);
+    const res = await api('GET', '/api/products?' + params, null, false);
+    state.products = res.data.products;
+    renderProducts(state.products);
+  } catch(e) {
+    document.getElementById('productsGrid').innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-light)">⚠️ Không thể tải sản phẩm. Hãy chắc chắn backend đang chạy.</div>`;
+  }
+}
+
+function changeSort(sortBy, btn) {
+  state.currentSort = sortBy;
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  console.log('🔄 Sort triggered:', sortBy);
+  loadProducts();
+}
+
+function renderProducts(products) {
+  const grid = document.getElementById('productsGrid');
+  if (!products.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-light)">🔍 Không tìm thấy sản phẩm nào.</div>`;
+    return;
+  }
+  grid.innerHTML = products.map(p => {
+    const sale = p.originalPrice && p.originalPrice > p.price;
+    const pct = sale ? Math.round((1 - p.price/p.originalPrice)*100) : 0;
+    return `
+    <div class="product-card" onclick="handleProductCardClick(${p.productId})">
+      <div class="product-img">
+        ${p.imageUrl ? `<img src="${encodeURI(p.imageUrl)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <span class="emoji-fallback" style="display:none">${EMOJI_MAP[p.category]||'🛍️'}</span>`
+          : `<span class="emoji-fallback">${EMOJI_MAP[p.category]||'🛍️'}</span>`}
+        ${sale ? `<div class="sale-badge">-${pct}%</div>` : ''}
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.productName}</div>
+        <div class="product-price" style="margin-bottom: 0.8rem;">
+          <span class="price-current">${p.price.toLocaleString('vi-VN')}₫</span>
+          ${sale ? `<span class="price-original">${p.originalPrice.toLocaleString('vi-VN')}₫</span>` : ''}
+        </div>
+        <button class="add-cart-btn" ${p.stock <= 0 ? 'disabled' : ''}
+          onclick="handleAddToCart(${p.productId})">
+          🛒 Thêm vào giỏ
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function filterCategory(cat, btn, evt) {
+  if (evt) { evt.preventDefault(); evt.stopPropagation(); }
+  state.currentCategory = cat;
+  state.currentSearch = ''; // Reset search khi filter
+  document.getElementById('searchInput').value = '';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  console.log('🎯 Filter triggered:', cat);
+  loadProducts();
+}
+
+let searchTimer;
+function searchProducts(val, evt) {
+  if (evt) { evt.stopPropagation(); }
+  state.currentSearch = val.trim();
+  state.currentCategory = 'all'; // Reset category khi search
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.filter-btn').classList.add('active');
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    console.log('🔍 Search triggered:', state.currentSearch);
+    loadProducts();
+  }, 400);
+}
+
+function showProductDetail(id) {
+  const p = state.products.find(x => x.productId === id);
+  if (!p) return;
+  document.getElementById('modalProductName').textContent = p.productName;
+  const sale = p.originalPrice && p.originalPrice > p.price;
+  document.getElementById('modalProductBody').innerHTML = `
+    <div style="background:var(--pink-pale);border-radius:16px;display:flex;align-items:center;justify-content:center;height:280px;font-size:6rem;margin-bottom:1.2rem;overflow:hidden">
+      ${p.imageUrl ? `<img src="${encodeURI(p.imageUrl)}" style="height:100%;width:100%;object-fit:contain" onerror="this.outerHTML='<span>${EMOJI_MAP[p.category]||'🛍️'}</span>'">` : EMOJI_MAP[p.category]||'🛍️'}
+    </div>
+    ${p.description ? `<p style="color:var(--text);margin-bottom:1rem;line-height:1.6">${p.description}</p>` : ''}
+    <div class="product-price" style="margin-bottom:1.2rem">
+      <span class="price-current" style="font-size:1.4rem">${p.price.toLocaleString('vi-VN')}₫</span>
+      ${sale ? `<span class="price-original">${p.originalPrice.toLocaleString('vi-VN')}₫</span>` : ''}
+    </div>
+    <button class="btn-primary" ${p.stock<=0?'disabled':''} onclick="handleAddToCartAndClose(${p.productId})">
+  🛒 Thêm vào giỏ hàng
+</button>
+  `;
+  document.getElementById('productModal').classList.add('open');
+}
+
+// Helper để thêm vào giỏ và đóng modal
+function handleAddToCartAndClose(productId) {
+  event?.preventDefault();
+  event?.stopPropagation();
+  console.log('🛒 Modal add to cart:', productId);
+  addToCart(productId);
+  closeModal('productModal');
+  return false;
+}
+
+// ══════════════════════════════════════════════
+//  CART
+// ══════════════════════════════════════════════
+function addToCart(productId) {
+  const p = state.products.find(x => x.productId === productId);
+  if (!p || p.stock <= 0) return;
+  const existing = state.cart.find(x => x.productId === productId);
+  if (existing) {
+    if (existing.quantity >= p.stock) { showToast('⚠️ Không đủ hàng!', 'error'); return; }
+    existing.quantity++;
+  } else {
+    state.cart.push({ productId, name: p.productName, price: p.price, imageUrl: p.imageUrl, category: p.category, quantity: 1 });
+  }
+  saveCart();
+  showToast('✅ Đã thêm vào giỏ!', 'success');
+}
+
+function saveCart() {
+  localStorage.setItem('candy_cart', JSON.stringify(state.cart));
+  updateCartBadge();
+}
+
+function updateCartBadge() {
+  const total = state.cart.reduce((s, x) => s + x.quantity, 0);
+  document.getElementById('cartCount').textContent = total;
+}
+
+function renderCart() {
+  const el = document.getElementById('cartContent');
+  if (!state.cart.length) {
+    el.innerHTML = `<div class="cart-empty"><div class="empty-icon">🛒</div><h3>Giỏ hàng trống!</h3><p>Hãy chọn thêm sản phẩm nhé 🌸</p><br><button class="btn-primary" style="max-width:200px" onclick="navigate('shop')">Mua sắm ngay</button></div>`;
+    return;
+  }
+  const total = state.cart.reduce((s,x) => s + x.price * x.quantity, 0);
+  
+  // Tính toán phí ship ban đầu để hiển thị
+  let shippingFee = 0;
+  if (state.shippingMethod === 'FAST') {
+    shippingFee = total >= 500000 ? 0 : 30000;
+  } else if (state.shippingMethod === 'EXPRESS') {
+    shippingFee = 50000;
+  }
+  
+  el.innerHTML = `
+    <div class="cart-grid">
+      <div class="cart-items">
+        ${state.cart.map((item, i) => `
+          <div class="cart-item">
+            <div class="cart-item-img">
+              ${item.imageUrl ? `<img src="${encodeURI(item.imageUrl)}" onerror="this.outerHTML='<span style=font-size:2rem>${EMOJI_MAP[item.category]||'🛍️'}</span>'">` : `<span style="font-size:2rem">${EMOJI_MAP[item.category]||'🛍️'}</span>`}
+            </div>
+            <div class="cart-item-info">
+              <div class="cart-item-name">${item.name}</div>
+              <div class="cart-item-price">${item.price.toLocaleString('vi-VN')}₫</div>
+              <div class="qty-control">
+                <button class="qty-btn" onclick="changeQty(${i},-1)">−</button>
+                <span class="qty-num">${item.quantity}</span>
+                <button class="qty-btn" onclick="changeQty(${i},1)">+</button>
+              </div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-weight:800;color:var(--pink)">${(item.price*item.quantity).toLocaleString('vi-VN')}₫</div>
+              <button class="remove-btn" onclick="removeFromCart(${i})">🗑️</button>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="cart-summary">
+        <h3>📋 Tóm tắt đơn hàng</h3>
+        <div class="summary-row"><span>Số lượng sản phẩm</span><span>${state.cart.reduce((s,x)=>s+x.quantity,0)}</span></div>
+        <div class="summary-row"><span>Tạm tính</span><span>${total.toLocaleString('vi-VN')}₫</span></div>
+        
+        <div class="checkout-section-title">🚚 Phương thức giao hàng</div>
+        <div class="option-cards">
+          <div class="option-card ${state.shippingMethod === 'FAST' ? 'active' : ''}" onclick="selectShippingMethod('FAST')">
+            <input type="radio" name="shippingMethod" value="FAST" ${state.shippingMethod === 'FAST' ? 'checked' : ''} style="pointer-events: none;">
+            <div class="option-info">
+              <span>🚀 Giao hàng nhanh (2-3 ngày)</span>
+              <span class="option-meta">${total >= 500000 ? 'Miễn phí ship (Đơn hàng từ 500k)' : 'Phí vận chuyển: 30.000₫'}</span>
+            </div>
+          </div>
+          <div class="option-card ${state.shippingMethod === 'EXPRESS' ? 'active' : ''}" onclick="selectShippingMethod('EXPRESS')">
+            <input type="radio" name="shippingMethod" value="EXPRESS" ${state.shippingMethod === 'EXPRESS' ? 'checked' : ''} style="pointer-events: none;">
+            <div class="option-info">
+              <span>⚡ Giao hàng hỏa tốc (2 giờ)</span>
+              <span class="option-meta">Phí vận chuyển: 50.000₫</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="checkout-section-title">💳 Phương thức thanh toán</div>
+        <div class="option-cards" style="margin-bottom: 1.2rem;">
+          <div class="option-card ${state.paymentMethod === 'COD' ? 'active' : ''}" onclick="selectPaymentMethod('COD')">
+            <input type="radio" name="paymentMethod" value="COD" ${state.paymentMethod === 'COD' ? 'checked' : ''} style="pointer-events: none;">
+            <div class="option-info">
+              <span>💵 Thanh toán khi nhận hàng (COD)</span>
+            </div>
+          </div>
+          <div class="option-card ${state.paymentMethod === 'BANK' ? 'active' : ''}" onclick="selectPaymentMethod('BANK')">
+            <input type="radio" name="paymentMethod" value="BANK" ${state.paymentMethod === 'BANK' ? 'checked' : ''} style="pointer-events: none;">
+            <div class="option-info">
+              <span>🏦 Chuyển khoản ngân hàng</span>
+            </div>
+          </div>
+          <div class="option-card ${state.paymentMethod === 'MOMO' ? 'active' : ''}" onclick="selectPaymentMethod('MOMO')">
+            <input type="radio" name="paymentMethod" value="MOMO" ${state.paymentMethod === 'MOMO' ? 'checked' : ''} style="pointer-events: none;">
+            <div class="option-info">
+              <span>📱 Ví điện tử MoMo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-row">
+          <span>Phí vận chuyển</span>
+          <span style="color:var(--pink)">${shippingFee === 0 ? 'Miễn phí 🎁' : shippingFee.toLocaleString('vi-VN') + '₫'}</span>
+        </div>
+        <div class="summary-row total">
+          <span>Tổng cộng</span>
+          <span>${(total + shippingFee).toLocaleString('vi-VN')}₫</span>
+        </div>
+
+        <div class="summary-address">
+          <label class="form-label" style="margin-bottom:0.5rem">📍 Địa chỉ giao hàng *</label>
+          <textarea id="shippingAddress" placeholder="Nhập địa chỉ giao hàng đầy đủ...">${state.user?.address || ''}</textarea>
+        </div>
+        <div class="form-group" style="margin-top:0.8rem">
+          <label class="form-label">📝 Ghi chú (tùy chọn)</label>
+          <input class="form-input" id="orderNote" placeholder="Giao giờ hành chính, để trước cửa...">
+        </div>
+        <button class="btn-primary" onclick="placeOrder()" style="margin-top:0.5rem">
+          ✨ Đặt hàng ngay
+        </button>
+      </div>
+    </div>`;
+}
+
+function selectShippingMethod(method) {
+  state.shippingMethod = method;
+  renderCart();
+}
+
+function selectPaymentMethod(method) {
+  state.paymentMethod = method;
+  renderCart();
+}
+
+function changeQty(i, delta) {
+  state.cart[i].quantity += delta;
+  if (state.cart[i].quantity <= 0) state.cart.splice(i, 1);
+  saveCart(); renderCart();
+}
+function removeFromCart(i) { state.cart.splice(i, 1); saveCart(); renderCart(); }
+
+async function placeOrder() {
+  if (!state.user) { showToast('🔑 Vui lòng đăng nhập để đặt hàng!', 'error'); navigate('login'); return; }
+  const addr = document.getElementById('shippingAddress')?.value?.trim();
+  if (!addr) { showToast('📍 Vui lòng nhập địa chỉ giao hàng!', 'error'); return; }
+  showLoading(true);
+  try {
+    const res = await api('POST', '/api/orders', {
+      items: state.cart.map(x => ({ productId: x.productId, quantity: x.quantity })),
+      shippingAddress: addr,
+      note: document.getElementById('orderNote')?.value || '',
+      paymentMethod: state.paymentMethod,
+      shippingMethod: state.shippingMethod
+    });
+    state.cart = [];
+    saveCart();
+    showToast('🎉 Đặt hàng thành công! Mã đơn: #' + res.data.orderId, 'success');
+    navigate('orders');
+  } catch(e) {
+    showToast('❌ ' + (e.message || 'Đặt hàng thất bại'), 'error');
+  } finally { showLoading(false); }
+}
+
+// ══════════════════════════════════════════════
+//  ORDERS
+// ══════════════════════════════════════════════
+async function loadOrders() {
+  if (!state.user) { navigate('login'); return; }
+  const el = document.getElementById('ordersContent');
+  el.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-light)">⏳ Đang tải...</div>';
+  try {
+    const res = await api('GET', '/api/orders/my');
+    const orders = res.data;
+    if (!orders.length) { el.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-light)">📦 Chưa có đơn hàng nào.<br><br><button class="btn-primary" style="max-width:200px;margin:auto" onclick="navigate(\'shop\')">Mua sắm ngay</button></div>'; return; }
+    const STATUS_LABEL = { PENDING:'⏳ Chờ xác nhận', CONFIRMED:'✅ Đã xác nhận', SHIPPING:'🚚 Đang giao', DELIVERED:'🎉 Đã giao', CANCELLED:'❌ Đã hủy' };
+    el.innerHTML = orders.map(o => `
+      <div class="order-card">
+        <div class="order-header">
+          <div>
+            <div class="order-id">Đơn hàng #${o.orderId}</div>
+            <div class="order-date">${new Date(o.createdAt).toLocaleDateString('vi-VN', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</div>
+          </div>
+          <span class="order-status status-${o.status}">${STATUS_LABEL[o.status] || o.status}</span>
+        </div>
+        <div class="order-items-list">
+          ${(o.items||[]).map(it => `<span class="order-item-chip">${it.product?.productName || 'Sản phẩm'} x${it.quantity}</span>`).join('')}
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.6rem;font-size:0.85rem;color:var(--text-light);border-top:1px dashed rgba(199,125,255,0.15);padding-top:0.6rem">
+          <div>🚚 ${o.shippingMethod === 'EXPRESS' ? '⚡ Hỏa tốc (2h)' : '🚀 Giao nhanh'} (${o.shippingFee > 0 ? o.shippingFee.toLocaleString('vi-VN') + '₫' : 'Miễn phí'})</div>
+          <div>💳 ${o.paymentMethod === 'BANK' ? '🏦 Chuyển khoản' : (o.paymentMethod === 'MOMO' ? '📱 Ví MoMo' : '💵 COD')}</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:0.4rem">
+          <div style="font-size:0.85rem;color:var(--text-light)">📍 ${o.shippingAddress}</div>
+          <div class="order-total">${o.totalAmount.toLocaleString('vi-VN')}₫</div>
+        </div>
+      </div>`).join('');
+  } catch(e) { el.innerHTML = '<div style="text-align:center;padding:2rem;color:#e74c3c">❌ Không thể tải đơn hàng.</div>'; }
+}
+
+// ══════════════════════════════════════════════
+//  PROFILE
+// ══════════════════════════════════════════════
+function renderProfile() {
+  if (!state.user) { navigate('login'); return; }
+  const u = state.user;
+  document.getElementById('profileAvatar').textContent = (u.fullName||u.username)[0].toUpperCase();
+  document.getElementById('profileInfo').innerHTML = `
+    <h3 style="font-family:'Fredoka One',cursive;font-size:1.4rem;color:var(--text);margin-bottom:1rem">${u.fullName}</h3>
+    <p style="color:var(--text-light);margin-bottom:0.4rem">👤 @${u.username}</p>
+    <p style="color:var(--text-light);margin-bottom:0.4rem">📧 ${u.email}</p>
+    ${u.phoneNumber ? `<p style="color:var(--text-light);margin-bottom:0.4rem">📱 ${u.phoneNumber}</p>` : ''}
+    ${u.address ? `<p style="color:var(--text-light);margin-bottom:0.4rem">📍 ${u.address}</p>` : ''}
+    <div style="margin-top:1rem"><span style="background:var(--pink-pale);color:var(--pink);padding:0.3rem 0.8rem;border-radius:50px;font-weight:800;font-size:0.85rem">${u.role === 'ADMIN' ? 'Admin' : 'Khách hàng'}</span></div>
+  `;
+}
+
+// ══════════════════════════════════════════════
+//  ADMIN
+// ══════════════════════════════════════════════
+let adminCurrentTab = 'products';
+
+async function adminTab(tab, btn) {
+  adminCurrentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  if (tab === 'products') await renderAdminProducts();
+  else if (tab === 'orders-admin') await renderAdminOrders();
+  else if (tab === 'revenue') await renderAdminRevenue();
+}
+
+async function renderAdminRevenue() {
+  const el = document.getElementById('adminContent');
+  el.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-light)">⏳ Đang tải báo cáo doanh thu...</div>';
+  try {
+    const res = await api('GET', '/api/admin/stats');
+    const stats = res.data;
+    
+    const statusLabels = {
+      PENDING: 'Chờ xác nhận',
+      CONFIRMED: 'Đã xác nhận',
+      SHIPPING: 'Đang giao',
+      DELIVERED: 'Đã giao',
+      CANCELLED: 'Đã hủy'
+    };
+
+    const statusColors = {
+      PENDING: '#f39c12',
+      CONFIRMED: '#3498db',
+      SHIPPING: '#9b59b6',
+      DELIVERED: '#2ecc71',
+      CANCELLED: '#e74c3c'
+    };
+
+    el.innerHTML = `
+      <div class="revenue-dashboard" style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+        
+        <!-- Widgets Cards -->
+        <div class="stats-widgets" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;">
+          
+          <div class="stat-card" style="background: rgba(46, 204, 113, 0.15); border: 1.5px solid rgba(46, 204, 113, 0.3); border-radius: 16px; padding: 1.5rem; backdrop-filter: blur(8px); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 0.5rem;">
+            <span style="font-size: 0.9rem; color: #27ae60; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Doanh thu thực tế (Đã giao)</span>
+            <strong style="font-size: 2rem; color: #2ecc71; font-family: 'Outfit', sans-serif;">${stats.totalRevenue.toLocaleString('vi-VN')}₫</strong>
+            <span style="font-size: 0.85rem; color: var(--text-light);">Từ các đơn hàng đã hoàn thành</span>
+          </div>
+
+          <div class="stat-card" style="background: rgba(52, 152, 219, 0.15); border: 1.5px solid rgba(52, 152, 219, 0.3); border-radius: 16px; padding: 1.5rem; backdrop-filter: blur(8px); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 0.5rem;">
+            <span style="font-size: 0.9rem; color: #2980b9; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Doanh thu tạm tính (Đang xử lý)</span>
+            <strong style="font-size: 2rem; color: #3498db; font-family: 'Outfit', sans-serif;">${stats.pendingRevenue.toLocaleString('vi-VN')}₫</strong>
+            <span style="font-size: 0.85rem; color: var(--text-light);">Từ các đơn chờ/đang giao</span>
+          </div>
+
+          <div class="stat-card" style="background: rgba(255, 110, 180, 0.15); border: 1.5px solid rgba(255, 110, 180, 0.3); border-radius: 16px; padding: 1.5rem; backdrop-filter: blur(8px); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 0.5rem;">
+            <span style="font-size: 0.9rem; color: var(--pink); font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Tổng số đơn hàng</span>
+            <strong style="font-size: 2rem; color: var(--pink); font-family: 'Outfit', sans-serif;">${stats.totalOrders} đơn</strong>
+            <span style="font-size: 0.85rem; color: var(--text-light);">Tất cả các trạng thái trong hệ thống</span>
+          </div>
+
+        </div>
+
+        <!-- Trạng thái đơn hàng -->
+        <div class="status-summary" style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 1.5rem; backdrop-filter: blur(12px); box-shadow: var(--shadow);">
+          <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: var(--pink); margin-bottom: 1.2rem; font-weight: 800; border-bottom: 2px solid rgba(255,110,180,0.15); padding-bottom: 0.5rem;">Trạng thái đơn hàng</h3>
+          <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between;">
+            ${Object.keys(stats.statusCounts).map(status => `
+              <div style="flex: 1; min-width: 150px; text-align: center; padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.5); border: 1px solid var(--glass-border); box-shadow: 0 4px 10px rgba(0,0,0,0.01);">
+                <div style="font-size: 0.85rem; color: var(--text-light); font-weight: 700; margin-bottom: 0.4rem;">${statusLabels[status]}</div>
+                <strong style="font-size: 1.4rem; color: ${statusColors[status] || 'var(--text)'}">${stats.statusCounts[status]}</strong>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Top sản phẩm bán chạy -->
+        <div class="top-selling-products" style="background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 1.5rem; backdrop-filter: blur(12px); box-shadow: var(--shadow);">
+          <h3 style="font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: var(--pink); margin-bottom: 1.2rem; font-weight: 800; border-bottom: 2px solid rgba(255,110,180,0.15); padding-bottom: 0.5rem;">Top 5 Sản Phẩm Bán Chạy Nhất</h3>
+          <div class="admin-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Sản phẩm</th>
+                  <th>Số lượng đã bán</th>
+                  <th>Tổng doanh thu mang lại</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${stats.topProducts.length ? stats.topProducts.map(p => `
+                  <tr>
+                    <td style="display: flex; align-items: center; gap: 1rem;">
+                      ${p.imageUrl ? `<img src="${encodeURI(p.imageUrl)}" style="width: 50px; height: 50px; object-fit: contain; border-radius: 8px; background: var(--pink-pale); border: 1px solid var(--glass-border);">` : `<span style="font-size: 2rem;">🛍️</span>`}
+                      <strong>${p.productName}</strong>
+                    </td>
+                    <td><strong style="font-size: 1.1rem; color: var(--text);">${p.totalQty}</strong> cái</td>
+                    <td><strong style="font-weight: 800; color: var(--pink);">${p.totalRev.toLocaleString('vi-VN')}₫</strong></td>
+                  </tr>
+                `).join('') : `<tr><td colspan="3" style="text-align: center; padding: 2rem; color: var(--text-light);">Chưa có dữ liệu bán hàng.</td></tr>`}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    `;
+  } catch(e) {
+    el.innerHTML = `<div style="color:#e74c3c;padding:1rem">❌ Lỗi tải báo cáo doanh thu.</div>`;
+  }
+}
+
+async function renderAdminProducts() {
+  const el = document.getElementById('adminContent');
+  el.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-light)">⏳ Đang tải...</div>';
+  try {
+    const res = await api('GET', '/api/products?limit=100', null, false);
+    const products = res.data.products;
+    el.innerHTML = `
+      <button class="btn-add" onclick="openProductForm()">+ Thêm sản phẩm mới</button>
+      <div class="admin-table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Tên</th><th>Giá</th><th>Tồn kho</th><th>Danh mục</th><th>Trạng thái</th><th>Hành động</th></tr></thead>
+          <tbody>
+            ${products.map(p => `<tr>
+              <td>#${p.productId}</td>
+              <td><strong>${p.productName}</strong><br><small style="color:var(--text-light)">${p.character||''}</small></td>
+              <td style="color:var(--pink);font-weight:800">${p.price.toLocaleString('vi-VN')}₫</td>
+              <td>${p.stock}</td>
+              <td>${p.category}</td>
+              <td><span style="padding:0.2rem 0.6rem;border-radius:50px;font-size:0.8rem;font-weight:800;background:${p.status==='ACTIVE'?'#d0f5e8':'#fde8e8'};color:${p.status==='ACTIVE'?'#0a7a4b':'#e74c3c'}">${p.status}</span></td>
+              <td style="display:flex;gap:0.4rem">
+                <button class="btn-sm edit" onclick="openProductForm(${JSON.stringify(p).replace(/"/g,'&quot;')})">✏️ Sửa</button>
+                <button class="btn-sm del" onclick="deleteProduct(${p.productId})">🗑️ Xóa</button>
+              </td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  } catch(e) { el.innerHTML = '<div style="color:#e74c3c;padding:1rem">❌ Lỗi tải dữ liệu.</div>'; }
+}
+
+async function renderAdminOrders() {
+  const el = document.getElementById('adminContent');
+  el.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-light)">⏳ Đang tải...</div>';
+  try {
+    const res = await api('GET', '/api/orders');
+    const orders = Array.isArray(res.data) ? res.data : (res.data.orders || []);
+    const STATUS_OPTIONS = ['PENDING','CONFIRMED','SHIPPING','DELIVERED','CANCELLED'];
+    const STATUS_LABEL = { PENDING:'⏳ Chờ xác nhận', CONFIRMED:'✅ Đã xác nhận', SHIPPING:'🚚 Đang giao', DELIVERED:'🎉 Đã giao', CANCELLED:'❌ Đã hủy' };
+    if (!orders.length) {
+      el.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--text-light)">📦 Chưa có đơn hàng nào.</div>';
+      return;
+    }
+    el.innerHTML = `
+      <div class="admin-table-wrap">
+        <table>
+          <thead><tr><th>Mã đơn</th><th>User ID</th><th>Sản phẩm</th><th>Vận chuyển & Thanh toán</th><th>Tổng tiền</th><th>Địa chỉ</th><th>Ngày đặt</th><th>Trạng thái</th></tr></thead>
+          <tbody>
+            ${orders.map(o => `<tr>
+              <td><strong>#${o.orderId}</strong></td>
+              <td>User #${o.userId}</td>
+              <td>${(o.items||[]).map(it => `<span class="order-item-chip">${it.product?.productName||'SP'} x${it.quantity}</span>`).join(' ')}</td>
+              <td>
+                <span style="font-size:0.8rem;display:block">🚚 ${o.shippingMethod === 'EXPRESS' ? '⚡ Hỏa tốc' : '🚀 Giao nhanh'}</span>
+                <span style="font-size:0.75rem;color:var(--text-light)">Phí: ${o.shippingFee > 0 ? o.shippingFee.toLocaleString('vi-VN') + '₫' : 'Miễn phí'}</span>
+                <span style="font-size:0.8rem;display:block;margin-top:0.2rem">💳 ${o.paymentMethod === 'BANK' ? '🏦 Bank' : (o.paymentMethod === 'MOMO' ? '📱 MoMo' : '💵 COD')}</span>
+              </td>
+              <td style="color:var(--pink);font-weight:800">${o.totalAmount.toLocaleString('vi-VN')}₫</td>
+              <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.82rem">${o.shippingAddress}</td>
+              <td style="font-size:0.82rem">${new Date(o.createdAt).toLocaleDateString('vi-VN')}</td>
+              <td>
+                <select class="form-input" style="padding:0.3rem;border-radius:8px;font-size:0.82rem;width:auto" onchange="updateOrderStatus(${o.orderId}, this.value)">
+                  ${STATUS_OPTIONS.map(s => `<option value="${s}" ${o.status===s?'selected':''}>${STATUS_LABEL[s]}</option>`).join('')}
+                </select>
+              </td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`;
+  } catch(e) {
+    el.innerHTML = '<div style="color:#e74c3c;padding:1rem">❌ Lỗi tải dữ liệu: ' + (e.message||'Không xác định') + '</div>';
+  }
+}
+
+function openProductForm(product = null) {
+  document.getElementById('productFormTitle').textContent = product ? '✏️ Sửa sản phẩm' : '➕ Thêm sản phẩm';
+  document.getElementById('pf-id').value = product?.productId || '';
+  document.getElementById('pf-name').value = product?.productName || '';
+  document.getElementById('pf-price').value = product?.price || '';
+  document.getElementById('pf-original-price').value = product?.originalPrice || '';
+  document.getElementById('pf-desc').value = product?.description || '';
+  document.getElementById('pf-image').value = product?.imageUrl || '';
+  document.getElementById('pf-category').value = product?.category || 'plush';
+  document.getElementById('pf-character').value = product?.character || '';
+  document.getElementById('pf-stock').value = product?.stock ?? 0;
+  document.getElementById('productFormAlert').className = 'alert';
+  document.getElementById('productFormModal').classList.add('open');
+}
+
+async function saveProduct() {
+  const id = document.getElementById('pf-id').value;
+  const data = {
+    productName: document.getElementById('pf-name').value,
+    price: parseInt(document.getElementById('pf-price').value),
+    originalPrice: document.getElementById('pf-original-price').value ? parseInt(document.getElementById('pf-original-price').value) : null,
+    description: document.getElementById('pf-desc').value,
+    imageUrl: document.getElementById('pf-image').value,
+    category: document.getElementById('pf-category').value,
+    character: document.getElementById('pf-character').value,
+    stock: parseInt(document.getElementById('pf-stock').value)
+  };
+  const alert = document.getElementById('productFormAlert');
+  try {
+    if (id) await api('PUT', '/api/products/' + id, data);
+    else await api('POST', '/api/products', data);
+    closeModal('productFormModal');
+    showToast('✅ Lưu sản phẩm thành công!', 'success');
+    loadProducts();
+    renderAdminProducts();
+  } catch(e) {
+    alert.className = 'alert error';
+    alert.textContent = e.message || 'Lỗi lưu sản phẩm.';
+  }
+}
+
+async function deleteProduct(id) {
+  if (!confirm('⚠️ Bạn chắc chắn muốn xóa sản phẩm này?')) return;
+  try {
+    await api('DELETE', '/api/products/' + id);
+    showToast('🗑️ Đã xóa sản phẩm.', 'success');
+    loadProducts(); renderAdminProducts();
+  } catch(e) { showToast('❌ ' + e.message, 'error'); }
+}
+
+async function updateOrderStatus(orderId, status) {
+  try {
+    await api('PUT', '/api/orders/' + orderId + '/status', { status });
+    showToast('✅ Cập nhật trạng thái thành công!', 'success');
+  } catch(e) { showToast('❌ ' + e.message, 'error'); }
+}
+
+// ══════════════════════════════════════════════
+//  UI HELPERS
+// ══════════════════════════════════════════════
+function closeModal(id) { 
+  document.getElementById(id).classList.remove('open');
+}
+
+let toastTimer;
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = ''; }, 3000);
+}
+
+function showLoading(show) {
+  document.getElementById('loading').classList.toggle('show', show);
+}
+</script>
+
+<!-- CSS CHO AI CHATBOT WIDGET -->
+<style>
+.ai-chat-bubble {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6eb4, #c77dff);
+  border: 2px solid white;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(255, 110, 180, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+  padding: 0;
+  overflow: visible;
+}
+.ai-chat-img-bubble {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.ai-chat-bubble:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 12px 30px rgba(255, 110, 180, 0.6);
+}
+.ai-chat-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4757;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 10px;
+  border: 2px solid white;
+  animation: heartBeat 2.5s infinite;
+}
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.15); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.15); }
+  70% { transform: scale(1); }
+}
+
+.ai-chat-window {
+  position: fixed;
+  bottom: 6.5rem;
+  right: 2rem;
+  width: 380px;
+  height: 500px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 15px 40px rgba(255, 110, 180, 0.15), 0 5px 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  z-index: 9998;
+  overflow: hidden;
+  transform: translateY(30px) scale(0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.ai-chat-window.active {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ai-chat-header {
+  padding: 1.2rem;
+  background: linear-gradient(135deg, rgba(255, 110, 180, 0.1), rgba(199, 125, 255, 0.1));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ai-chat-title {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.ai-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(255, 110, 180, 0.15);
+}
+.ai-chat-title strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--pink-dark);
+}
+.ai-status {
+  font-size: 0.75rem;
+  color: #2ed573;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.ai-status::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: #2ed573;
+  border-radius: 50%;
+}
+.ai-chat-close {
+  background: none;
+  border: none;
+  color: #a4b0be;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.ai-chat-close:hover {
+  color: #57606f;
+}
+
+.ai-chat-messages {
+  flex: 1;
+  padding: 1.2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.ai-chat-messages::-webkit-scrollbar {
+  width: 5px;
+}
+.ai-chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 110, 180, 0.2);
+  border-radius: 10px;
+}
+
+.chat-message {
+  max-width: 85%;
+  padding: 0.8rem 1rem;
+  border-radius: 18px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+.chat-message.bot {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text);
+  align-self: flex-start;
+  border-top-left-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+.chat-message.user {
+  background: linear-gradient(135deg, #ff6eb4, #c77dff);
+  color: white;
+  align-self: flex-end;
+  border-top-right-radius: 4px;
+  box-shadow: 0 4px 12px rgba(255, 110, 180, 0.2);
+}
+
+.chat-product-card {
+  background: white;
+  border: 1px solid rgba(255, 110, 180, 0.1);
+  border-radius: 16px;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  animation: slideIn 0.3s ease-out;
+}
+@keyframes slideIn {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.chat-product-img {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #fdf6f9;
+}
+.chat-product-info {
+  flex: 1;
+}
+.chat-product-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.2rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.chat-product-price {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--pink-dark);
+}
+.chat-product-btn {
+  background: #fdf6f9;
+  border: 1px solid rgba(255, 110, 180, 0.2);
+  color: var(--pink-dark);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.chat-product-btn:hover {
+  background: var(--pink-dark);
+  color: white;
+}
+
+.ai-chat-input-area {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  gap: 0.6rem;
+}
+.ai-chat-input-area input {
+  flex: 1;
+  border: 1px solid rgba(255, 110, 180, 0.25);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0.75rem 1rem;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  color: var(--text);
+  outline: none;
+  font-family: 'Nunito', sans-serif;
+  transition: border-color 0.2s;
+}
+.ai-chat-input-area input:focus {
+  border-color: #ff6eb4;
+}
+.ai-chat-input-area button {
+  background: linear-gradient(135deg, #ff6eb4, #c77dff);
+  color: white;
+  border: none;
+  padding: 0 1.2rem;
+  border-radius: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.ai-chat-input-area button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(255, 110, 180, 0.3);
+}
+
+.ai-typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 0.7rem 1.1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 18px;
+  border-top-left-radius: 4px;
+  align-self: flex-start;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+.ai-typing-indicator span {
+  width: 6px;
+  height: 6px;
+  background: #ff6eb4;
+  border-radius: 50%;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+.ai-typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.ai-typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}
+
+@media (max-width: 480px) {
+  .ai-chat-window {
+    width: calc(100% - 2rem);
+    height: 450px;
+    right: 1rem;
+    bottom: 5.5rem;
+  }
+  .ai-chat-bubble {
+    right: 1rem;
+    bottom: 1rem;
+  }
+}
+</style>
+
+<!-- HTML CHO AI CHATBOT WIDGET -->
+<button id="ai-chat-bubble" class="ai-chat-bubble" onclick="toggleAIChat()">
+  <img src="images/trolyAI.jpg" alt="AI" class="ai-chat-img-bubble">
+  <span class="ai-chat-badge">AI</span>
+</button>
+
+<div id="ai-chat-window" class="ai-chat-window">
+  <div class="ai-chat-header">
+    <div class="ai-chat-title">
+      <img src="images/trolyAI.jpg" alt="AI Avatar" class="ai-avatar">
+      <div>
+        <strong>Candycore Assistant</strong>
+        <span class="ai-status">Đang trực tuyến</span>
+      </div>
+    </div>
+    <button class="ai-chat-close" onclick="toggleAIChat()">✕</button>
+  </div>
+  <div class="ai-chat-messages" id="aiChatMessages">
+    <div class="chat-message bot">
+      Chào bạn! Mình là trợ lý AI ngọt ngào của Candycore Shop. Hôm nay bạn cần tìm quà tặng hay có câu hỏi nào cần mình tư vấn không? Hãy nói cho mình biết nhé! 🌸
+    </div>
+  </div>
+  <div class="ai-chat-input-area">
+    <input type="text" id="aiChatInput" placeholder="Hỏi AI Candycore..." onkeydown="handleAIChatKey(event)">
+    <button onclick="sendAIChatMessage()">Gửi</button>
+  </div>
+</div>
+
+<!-- SCRIPTS CHO AI CHATBOT WIDGET -->
+<script>
+let isAIChatOpen = false;
+let aiChatHistory = [];
+
+function toggleAIChat() {
+  const windowEl = document.getElementById('ai-chat-window');
+  isAIChatOpen = !isAIChatOpen;
+  windowEl.classList.toggle('active', isAIChatOpen);
+  if (isAIChatOpen) {
+    document.getElementById('aiChatInput').focus();
+    const badge = document.querySelector('.ai-chat-badge');
+    if (badge) badge.style.display = 'none';
+  }
+}
+
+function handleAIChatKey(event) {
+  if (event.key === 'Enter' && !event.isComposing) {
+    event.preventDefault();
+    sendAIChatMessage();
+  }
+}
+
+async function sendAIChatMessage() {
+  const inputEl = document.getElementById('aiChatInput');
+  const msgText = inputEl.value.trim();
+  if (!msgText) return;
+
+  renderChatMessage(msgText, 'user');
+  aiChatHistory.push({ sender: 'user', text: msgText });
+  inputEl.value = '';
+
+  const messagesContainer = document.getElementById('aiChatMessages');
+  const typingIndicator = document.createElement('div');
+  typingIndicator.className = 'ai-typing-indicator';
+  typingIndicator.id = 'aiTypingIndicator';
+  typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+  messagesContainer.appendChild(typingIndicator);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+  try {
+    const res = await api('POST', '/api/ai/chat', { message: msgText, history: aiChatHistory }, false);
+    
+    const indicator = document.getElementById('aiTypingIndicator');
+    if (indicator) indicator.remove();
+
+    if (res.success) {
+      renderChatMessage(res.data.text, 'bot', res.data.products);
+      aiChatHistory.push({ sender: 'bot', text: res.data.text });
+    } else {
+      renderChatMessage(res.message || 'Có lỗi xảy ra, bạn yêu thử lại sau nha! 💕', 'bot');
+    }
+  } catch (error) {
+    const indicator = document.getElementById('aiTypingIndicator');
+    if (indicator) indicator.remove();
+    console.error("Lỗi gửi tin nhắn AI:", error);
+    renderChatMessage(error.message || 'Có lỗi xảy ra khi kết nối với AI, bạn yêu thử lại sau nha! 💕', 'bot');
+  }
+}
+
+function renderChatMessage(text, sender, products = []) {
+  const messagesContainer = document.getElementById('aiChatMessages');
+  
+  const msgEl = document.createElement('div');
+  msgEl.className = `chat-message ${sender}`;
+  msgEl.innerHTML = text.replace(/\n/g, '<br>');
+  messagesContainer.appendChild(msgEl);
+
+  if (products && products.length > 0) {
+    products.forEach(p => {
+      const cardEl = document.createElement('div');
+      cardEl.className = 'chat-product-card';
+      
+      const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(p.price);
+      
+      cardEl.innerHTML = `
+        <img src="${encodeURI(p.imageUrl)}" alt="${p.productName}" class="chat-product-img">
+        <div class="chat-product-info">
+          <div class="chat-product-name">${p.productName}</div>
+          <div class="chat-product-price">${formattedPrice}</div>
+        </div>
+        <button class="chat-product-btn" onclick="viewProductFromChat(${p.productId || p.id})">Xem</button>
+      `;
+      messagesContainer.appendChild(cardEl);
+    });
+  }
+
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function viewProductFromChat(productId) {
+  const p = state.products.find(item => item.productId === productId || item.id === productId);
+  if (p) {
+    showProductDetail(p.productId);
+  }
+}
+
+function analyzeUserMessage(msg) {
+  const cleanMsg = msg.toLowerCase();
+  
+  let budgetLimit = null;
+  const kMatches = cleanMsg.match(/(\d+)\s*(k|trăm|triệu)/);
+  if (kMatches) {
+    const value = parseInt(kMatches[1]);
+    if (kMatches[2] === 'k') {
+      budgetLimit = value * 1000;
+    } else if (kMatches[2] === 'trăm') {
+      budgetLimit = value * 100000;
+    }
+  } else {
+    const numMatches = cleanMsg.match(/\b(\d{2,3})\b/);
+    if (numMatches) {
+      const val = parseInt(numMatches[1]);
+      if (val >= 10 && val <= 999) {
+        budgetLimit = val * 1000;
+      }
+    } else {
+      const longNumMatches = cleanMsg.match(/\b(\d{5,8})\b/);
+      if (longNumMatches) {
+        budgetLimit = parseInt(longNumMatches[1]);
+      }
+    }
+  }
+
+  let isUnder = true;
+  if (cleanMsg.includes('trên') || cleanMsg.includes('hơn') || cleanMsg.includes('tối thiểu')) {
+    isUnder = false;
+  }
+
+  let isChild = false;
+  let age = null;
+  const ageMatch = cleanMsg.match(/(\d+)\s*tuổi/);
+  if (ageMatch) {
+    age = parseInt(ageMatch[1]);
+    if (age <= 10) isChild = true;
+  }
+  if (cleanMsg.includes('bé') || cleanMsg.includes('cháu') || cleanMsg.includes('trẻ em') || cleanMsg.includes('con nít') || cleanMsg.includes('6 tuổi') || cleanMsg.includes('lên 6')) {
+    isChild = true;
+  }
+
+  let categoryKeyword = null;
+  if (cleanMsg.includes('gấu bông') || cleanMsg.includes('thú bông') || cleanMsg.includes('plush')) {
+    categoryKeyword = 'plush';
+  } else if (cleanMsg.includes('phụ kiện') || cleanMsg.includes('balo') || cleanMsg.includes('túi') || cleanMsg.includes('móc khóa') || cleanMsg.includes('tai nghe')) {
+    categoryKeyword = 'accessories';
+  } else if (cleanMsg.includes('sách') || cleanMsg.includes('vở') || cleanMsg.includes('sổ') || cleanMsg.includes('sticker') || cleanMsg.includes('văn phòng phẩm') || cleanMsg.includes('di chuột') || cleanMsg.includes('mousepad')) {
+    categoryKeyword = 'stationery';
+  } else if (cleanMsg.includes('áo') || cleanMsg.includes('quần') || cleanMsg.includes('váy') || cleanMsg.includes('hoodie') || cleanMsg.includes('áo mưa') || cleanMsg.includes('quần áo')) {
+    categoryKeyword = 'apparel';
+  } else if (cleanMsg.includes('cốc') || cleanMsg.includes('ly') || cleanMsg.includes('bình nước') || cleanMsg.includes('bình trà') || cleanMsg.includes('gia dụng') || cleanMsg.includes('ấm')) {
+    categoryKeyword = 'homeware';
+  }
+
+  let characterKeyword = null;
+  const characters = ['hello kitty', 'kuromi', 'my melody', 'cinnamoroll', 'pompompurin', 'little twin stars', 'keroppi', 'badtz-maru', 'pochacco'];
+  for (const char of characters) {
+    if (cleanMsg.includes(char) || cleanMsg.includes(char.replace(' ', ''))) {
+      characterKeyword = char;
+      break;
+    }
+  }
+
+  let products = [...state.products];
+  if (products.length === 0) {
+    products = [
+      { id: 1, productName: 'Hello Kitty Plush 30cm', description: 'Gấu bông Hello Kitty siêu mềm, size 30cm', price: 299000, category: 'plush', character: 'Hello Kitty', imageUrl: 'images/Hello Kitty Plush 30cm.jpg' },
+      { id: 2, productName: 'Kuromi Backpack', description: 'Balo Kuromi đi học cực xinh', price: 450000, category: 'accessories', character: 'Kuromi', imageUrl: 'images/Kuromi Backpack.jpg' },
+      { id: 3, productName: 'Cinnamoroll Notebook Set', description: 'Set 3 cuốn sổ tay Cinnamoroll', price: 120000, category: 'stationery', character: 'Cinnamoroll', imageUrl: 'images/Cinnamoroll Notebook Set.jpg' },
+      { id: 4, productName: 'My Melody Hoodie', description: 'Áo hoodie My Melody màu hồng pastel', price: 380000, category: 'apparel', character: 'My Melody', imageUrl: 'images/My Melody Hoodie.jpg' },
+      { id: 5, productName: 'Pompompurin Mug', description: 'Cốc sứ Pompompurin 350ml', price: 180000, category: 'homeware', character: 'Pompompurin', imageUrl: 'images/Pompompurin Mug.jpg' },
+      { id: 6, productName: 'Little Twin Stars Keychain', description: 'Móc khóa Little Twin Stars kim tuyến', price: 85000, category: 'accessories', character: 'Little Twin Stars', imageUrl: 'images/Little Twin Stars Keychain.jpg' },
+      { id: 7, productName: 'Keroppi Plush 20cm', description: 'Gấu bông ếch Keroppi dễ thương', price: 220000, category: 'plush', character: 'Keroppi', imageUrl: 'images/Keroppi Plush 20cm.jpg' },
+      { id: 8, productName: 'Badtz-Maru Sticker Pack', description: 'Pack 50 sticker Badtz-Maru', price: 65000, category: 'stationery', character: 'Badtz-Maru', imageUrl: 'images/Badtz-Maru Sticker Pack.jpg' },
+      { id: 9, productName: 'Pochacco Canvas Tote Bag', description: 'Túi vải canvas Pochacco đi học cực xinh và tiện lợi', price: 190000, category: 'accessories', character: 'Pochacco', imageUrl: 'images/Pochacco Canvas Tote Bag.jpg' },
+      { id: 10, productName: 'Kuromi Gothic Lolita Dress', description: 'Váy Kuromi phong cách Gothic Lolita cá tính', price: 620000, category: 'apparel', character: 'Kuromi', imageUrl: 'images/Kuromi Gothic Lolita Dress.jpg' },
+      { id: 11, productName: 'Cinnamoroll Wireless Earbuds', description: 'Tai nghe Bluetooth không dây Cinnamoroll màu xanh pastel cực cute', price: 550000, category: 'accessories', character: 'Cinnamoroll', imageUrl: 'images/Cinnamoroll Wireless Earbuds.jpg' },
+      { id: 12, productName: 'My Melody Ceramic Teapot', description: 'Bình trà sứ My Melody cao cấp để bàn trà ngọt ngào', price: 320000, category: 'homeware', character: 'My Melody', imageUrl: 'images/My Melody Ceramic Teapot.jpg' },
+      { id: 13, productName: 'Keroppi Kids Raincoat', description: 'Áo mưa Keroppi chống nước họa tiết chú ếch xanh cho bé', price: 150000, category: 'apparel', character: 'Keroppi', imageUrl: 'images/Keroppi Kids Raincoat.jpg' },
+      { id: 14, productName: 'Badtz-Maru Gaming Mousepad', description: 'Bàn di chuột gaming Badtz-Maru bản to dày dặn chống trượt', price: 250000, category: 'stationery', character: 'Badtz-Maru', imageUrl: 'images/Badtz-Maru Gaming Mousepad.jpg' },
+      { id: 15, productName: 'Hello Kitty Pink Thermo Flask', description: 'Bình nước giữ nhiệt Hello Kitty màu hồng giữ nhiệt 12 tiếng', price: 290000, category: 'homeware', character: 'Hello Kitty', imageUrl: 'images/Hello Kitty Pink Thermo Flask.jpg' }
+    ];
+  }
+
+  let filtered = [...products];
+
+  if (budgetLimit !== null) {
+    if (isUnder) {
+      filtered = filtered.filter(p => p.price <= budgetLimit);
+    } else {
+      filtered = filtered.filter(p => p.price >= budgetLimit);
+    }
+  }
+
+  if (categoryKeyword !== null) {
+    filtered = filtered.filter(p => p.category === categoryKeyword || p.description.toLowerCase().includes(categoryKeyword));
+  }
+
+  if (characterKeyword !== null) {
+    filtered = filtered.filter(p => p.character && p.character.toLowerCase().includes(characterKeyword));
+  }
+
+  return {
+    filteredProducts: filtered.slice(0, 3),
+    budgetLimit,
+    isChild,
+    categoryKeyword,
+    characterKeyword
+  };
+}
+
+function generateBotResponse(msg) {
+  const analysis = analyzeUserMessage(msg);
+  const cleanMsg = msg.toLowerCase();
+  const hasBudgetKeyword = cleanMsg.includes('budget') || cleanMsg.includes('ngân sách');
+  const budgetWord = cleanMsg.includes('budget') ? 'budget' : 'ngân sách';
+  
+  if (cleanMsg.includes('chào') || cleanMsg.includes('hello') || cleanMsg.includes('hi')) {
+    return {
+      text: "Xin chào bạn yêu! 🌸 Mình là trợ lý Candycore Shop. Mình có thể giúp bạn tìm các sản phẩm Sanrio xinh xắn hoặc tư vấn quà tặng phù hợp nhất. Bạn cần tìm gì nào? 💕"
+    };
+  }
+
+  if (cleanMsg.includes('cảm ơn') || cleanMsg.includes('cám ơn') || cleanMsg.includes('thank')) {
+    return {
+      text: "Không có chi đâu nè! Rất vui được hỗ trợ bạn. Chúc bạn một ngày ngọt ngào nha! 🎀✨"
+    };
+  }
+
+  // Khách hỏi chung chung về budget/giá cả nhưng không có con số cụ thể
+  if (hasBudgetKeyword && !analysis.budgetLimit) {
+    return {
+      text: "Candycore Shop có các sản phẩm với nhiều mức budget đa dạng, từ các món xinh xắn như Sticker (65k), Móc khóa (85k), Cốc sứ (180k) cho tới Gấu bông Hello Kitty (299k) hay Áo hoodie/Váy Kuromi Lolita (380k - 620k) nè. Bạn có thể cho mình biết cụ thể budget của bạn khoảng bao nhiêu để mình lọc chính xác nhé! 💕"
+    };
+  }
+
+  if (analysis.isChild) {
+    let introText = "Ôi, mua quà cho bé nhỏ thì tuyệt nhất là các em gấu bông mềm mịn, đồ dùng học tập xinh xắn hoặc áo mưa họa tiết đáng yêu nè! 🧸✨\n\n";
+    if (analysis.budgetLimit) {
+      introText += `Mình đã ghi nhận **${budgetWord}** của bạn là dưới **${new Intl.NumberFormat('vi-VN').format(analysis.budgetLimit)}đ**, dưới đây là những món quà cực kỳ phù hợp cho bé:`;
+    } else {
+      introText += "Dưới đây là một số gợi ý quà tặng siêu dễ thương được các bé vô cùng yêu thích:";
+    }
+
+    if (analysis.filteredProducts.length === 0) {
+      return {
+        text: `Hiện tại các sản phẩm xinh xắn của shop có giá từ 65k trở lên. Với ${budgetWord} này hơi khó chọn một chút, bạn có thể cân nhắc nâng lên một xíu để chọn được món quà ưng ý nhất cho bé nha! 💕`
+      };
+    }
+
+    return {
+      text: introText,
+      products: analysis.filteredProducts
+    };
+  }
+
+  if (analysis.budgetLimit && !analysis.categoryKeyword && !analysis.characterKeyword) {
+    let responseText = `Mình đã lọc các sản phẩm Sanrio ngọt ngào phù hợp với **${budgetWord}** dưới **${new Intl.NumberFormat('vi-VN').format(analysis.budgetLimit)}đ** của bạn rồi đây:`;
+    if (analysis.filteredProducts.length === 0) {
+      return {
+        text: `Tiếc quá, hiện shop chưa có sản phẩm nào dưới ${new Intl.NumberFormat('vi-VN').format(analysis.budgetLimit)}đ. Món quà nhỏ xinh nhất là sticker/móc khóa cũng có giá từ 65k rồi nè. Bạn xem thêm các mẫu khác nhé! 💕`
+      };
+    }
+    return {
+      text: responseText,
+      products: analysis.filteredProducts
+    };
+  }
+
+  if (analysis.characterKeyword) {
+    const charName = analysis.characterKeyword.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    let responseText = `Những món đồ mang hình ảnh chú **${charName}** siêu dễ thương đang có sẵn tại shop nè:`;
+    if (analysis.budgetLimit) {
+      responseText = `Với **${budgetWord}** dưới **${new Intl.NumberFormat('vi-VN').format(analysis.budgetLimit)}đ**, đây là những sản phẩm của **${charName}** dành cho bạn:`;
+    }
+    if (analysis.filteredProducts.length === 0) {
+      return {
+        text: `Hiện tại các món đồ của ${charName} với mức giá bạn yêu cầu đang tạm hết hàng rồi ạ. Bạn có muốn tham khảo các nhân vật đáng yêu khác như Hello Kitty hay My Melody không? 💕`
+      };
+    }
+    return {
+      text: responseText,
+      products: analysis.filteredProducts
+    };
+  }
+
+  if (analysis.categoryKeyword) {
+    let responseText = "Đây là những sản phẩm thuộc nhóm bạn đang tìm kiếm nè, xinh xắn cực kỳ luôn:";
+    if (analysis.budgetLimit) {
+      responseText = `Mình đã tìm các sản phẩm bạn yêu cầu có **${budgetWord}** dưới **${new Intl.NumberFormat('vi-VN').format(analysis.budgetLimit)}đ** cho bạn rồi nè:`;
+    }
+    if (analysis.filteredProducts.length === 0) {
+      return {
+        text: "Món đồ này với mức giá bạn mong muốn hiện tại shop đang tạm hết hàng rồi ạ. Bạn xem thử các sản phẩm gấu bông hay phụ kiện khác nhé! 🌸"
+      };
+    }
+    return {
+      text: responseText,
+      products: analysis.filteredProducts
+    };
+  }
+
+  return {
+    text: "Mình chưa hiểu rõ ý bạn lắm nè. Bạn có thể hỏi rõ hơn như: *'gấu bông dưới 300k'*, *'quà tặng sinh nhật bé 6 tuổi với budget 400k'*, hoặc *'đồ dùng học tập Kuromi'* để mình tìm chính xác nhất nha! 🎀✨"
+  };
+}
+</script>
+</body>
+</html>
+

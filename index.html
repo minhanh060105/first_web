@@ -6,9 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="css/style.css" />
 <!-- model-viewer -->
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
 </head>
 <body>
+  <!-- ═══ CANDYCORE SHOP BANNER ═══ -->
+  <div id="shop-banner" style="background:linear-gradient(135deg,#ff6eb4,#c77dff);color:white;text-align:center;padding:0.55rem 1rem;font-size:0.9rem;font-weight:700;position:relative;z-index:200">
+    🛍️ NEW! Mua ngay merchandise Sanrio tại <a href="shop.html" target="_blank" style="color:#ffe066;font-weight:800;border-bottom:1px dashed #ffe066;text-decoration:none">Candycore Shop</a> — Miễn phí vận chuyển! 🌸
+  </div>
+
   <audio id="webMusic" src="sounds/web.mp3" loop></audio>
 
 <script>
@@ -108,25 +113,26 @@ window.addEventListener("click", () => {
 <!-- GALLERY -->
 <section id="gallery" class="section yellow reveal">
   <h2>Merchandise Gallery</h2>
+  <p style="text-align:center;color:#b06fc0;font-size:0.95rem;margin-bottom:1rem;font-weight:700">✨ Nhấp vào bất kỳ sản phẩm nào để mua tại Candycore Shop! ✨</p>
   <div class="merch-slider">
     <div class="merch-track">
-      <div class="merch-item"><img src="images/merch1.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch2.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch3.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch4.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch5.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch6.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch7.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch8.jpg" alt=""></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch1.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch2.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch3.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch4.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch5.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch6.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch7.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch8.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
       <!-- duplicate for infinite scroll -->
-      <div class="merch-item"><img src="images/merch1.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch2.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch3.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch4.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch5.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch6.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch7.jpg" alt=""></div>
-      <div class="merch-item"><img src="images/merch8.jpg" alt=""></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch1.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch2.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch3.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch4.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch5.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch6.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch7.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
+      <div class="merch-item merch-shop-item"><a href="shop.html" target="_blank"><img src="images/merch8.jpg" alt=""><div class="merch-overlay">🛒 Mua ngay</div></a></div>
     </div>
   </div>
 </section>
@@ -178,42 +184,346 @@ window.addEventListener("click", () => {
 
 <!-- JS -->
 <script src="js/main.js"></script>
-<script>
-  document.getElementById('exploreBtn').addEventListener('click', () => {
-    document.querySelector('#exhibits').scrollIntoView({ behavior: 'smooth' });
-  });
 
-  const reveals = document.querySelectorAll('.reveal');
-  function revealOnScroll() {
-    reveals.forEach(el => {
-      const top = el.getBoundingClientRect().top;
-      const height = window.innerHeight;
-      if(top < height - 100) el.classList.add('active');
-    });
-  }
-  window.addEventListener('scroll', revealOnScroll);
-  revealOnScroll();
-</script>
-<script>
-  function openGame() {
-      document.getElementById("gameModal").style.display = "block";
-      webMusic.pause();
-  }
-  const closeGame = document.getElementById("closeGame");
-  closeGame.addEventListener("click", () => {
-      const iframe = document.querySelector("#gameModal iframe");
-  
-      iframe.src = "";
-      document.getElementById("gameModal").style.display = "none";
-      webMusic.play();
-      setTimeout(() => {
-          iframe.src = "game/game.html";
-      }, 100);
-  });
-</script>
+<!-- ═══ CANDYCORE SHOP INTEGRATION ═══ -->
+<a href="shop.html" target="_blank" id="floating-shop-btn">🛒 Shop ngay</a>
 
-</body>
-</html>
+<style>
+/* Merch items clickable */
+.merch-shop-item { position: relative; cursor: pointer; }
+.merch-shop-item a { display: block; height: 100%; position: relative; text-decoration: none; background: #ffffff; }
+.merch-shop-item img { display: block; width: 100%; height: 100%; object-fit: contain; padding: 12px; box-sizing: border-box; transition: transform 0.3s; }
+.merch-shop-item:hover img { transform: scale(1.06); }
+.merch-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(255,110,180,0.9) 0%, transparent 55%);
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-bottom: 0.8rem;
+  color: white; font-weight: 800; font-size: 1rem;
+  opacity: 0; transition: opacity 0.3s;
+  border-radius: inherit;
+}
+.merch-shop-item:hover .merch-overlay { opacity: 1; }
+
+/* Floating button */
+#floating-shop-btn {
+  position: fixed; bottom: 1.8rem; right: 7.5rem; z-index: 9999;
+  background: linear-gradient(135deg, #ff6eb4, #c77dff);
+  color: white; border-radius: 50px;
+  padding: 0.8rem 1.5rem; font-size: 0.95rem; font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 6px 25px rgba(255,110,180,0.5);
+  animation: shopFloat 3s ease-in-out infinite;
+  transition: box-shadow 0.2s;
+}
+#floating-shop-btn:hover { box-shadow: 0 10px 35px rgba(255,110,180,0.7); }
+@keyframes shopFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+/* CSS CHO AI CHATBOT WIDGET */
+.ai-chat-bubble {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6eb4, #c77dff);
+  border: 2px solid white;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(255, 110, 180, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+  padding: 0;
+  overflow: visible;
+}
+.ai-chat-img-bubble {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.ai-chat-bubble:hover {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 12px 30px rgba(255, 110, 180, 0.6);
+}
+.ai-chat-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4757;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 10px;
+  border: 2px solid white;
+  animation: heartBeat 2.5s infinite;
+}
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.15); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.15); }
+  70% { transform: scale(1); }
+}
+
+.ai-chat-window {
+  position: fixed;
+  bottom: 6.5rem;
+  right: 2rem;
+  width: 380px;
+  height: 500px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 15px 40px rgba(255, 110, 180, 0.15), 0 5px 15px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  z-index: 9998;
+  overflow: hidden;
+  transform: translateY(30px) scale(0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.ai-chat-window.active {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ai-chat-header {
+  padding: 1.2rem;
+  background: linear-gradient(135deg, rgba(255, 110, 180, 0.1), rgba(199, 125, 255, 0.1));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ai-chat-title {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.ai-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(255, 110, 180, 0.15);
+}
+.ai-chat-title strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--pink-dark, #ff6eb4);
+}
+.ai-status {
+  font-size: 0.75rem;
+  color: #2ed573;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.ai-status::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: #2ed573;
+  border-radius: 50%;
+}
+.ai-chat-close {
+  background: none;
+  border: none;
+  color: #a4b0be;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.ai-chat-close:hover {
+  color: #57606f;
+}
+
+.ai-chat-messages {
+  flex: 1;
+  padding: 1.2rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.ai-chat-messages::-webkit-scrollbar {
+  width: 5px;
+}
+.ai-chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(255, 110, 180, 0.2);
+  border-radius: 10px;
+}
+
+.chat-message {
+  max-width: 85%;
+  padding: 0.8rem 1rem;
+  border-radius: 18px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+.chat-message.bot {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text, #333);
+  align-self: flex-start;
+  border-top-left-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+.chat-message.user {
+  background: linear-gradient(135deg, #ff6eb4, #c77dff);
+  color: white;
+  align-self: flex-end;
+  border-top-right-radius: 4px;
+  box-shadow: 0 4px 12px rgba(255, 110, 180, 0.2);
+}
+
+.chat-product-card {
+  background: white;
+  border: 1px solid rgba(255, 110, 180, 0.1);
+  border-radius: 16px;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  animation: slideIn 0.3s ease-out;
+}
+@keyframes slideIn {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.chat-product-img {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #fdf6f9;
+}
+.chat-product-info {
+  flex: 1;
+}
+.chat-product-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text, #333);
+  margin-bottom: 0.2rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.chat-product-price {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--pink-dark, #ff6eb4);
+}
+.chat-product-btn {
+  background: #fdf6f9;
+  border: 1px solid rgba(255, 110, 180, 0.2);
+  color: var(--pink-dark, #ff6eb4);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.chat-product-btn:hover {
+  background: var(--pink-dark, #ff6eb4);
+  color: white;
+}
+
+.ai-chat-input-area {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  gap: 0.6rem;
+}
+.ai-chat-input-area input {
+  flex: 1;
+  border: 1px solid rgba(255, 110, 180, 0.25);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0.75rem 1rem;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  color: var(--text, #333);
+  outline: none;
+  font-family: 'Nunito', sans-serif;
+  transition: border-color 0.2s;
+}
+.ai-chat-input-area input:focus {
+  border-color: #ff6eb4;
+}
+.ai-chat-input-area button {
+  background: linear-gradient(135deg, #ff6eb4, #c77dff);
+  color: white;
+  border: none;
+  padding: 0 1.2rem;
+  border-radius: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.ai-chat-input-area button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(255, 110, 180, 0.3);
+}
+
+.ai-typing-indicator {
+  display: flex;
+  gap: 4px;
+  padding: 0.7rem 1.1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 18px;
+  border-top-left-radius: 4px;
+  align-self: flex-start;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+.ai-typing-indicator span {
+  width: 6px;
+  height: 6px;
+  background: #ff6eb4;
+  border-radius: 50%;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+.ai-typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.ai-typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}
+
+@media (max-width: 480px) {
+  .ai-chat-window {
+    width: calc(100% - 2rem);
+    height: 450px;
+    right: 1rem;
+    bottom: 5.5rem;
+  }
+  .ai-chat-bubble {
+    right: 1rem;
+    bottom: 1rem;
+  }
+}
+
+</style>
+
 <!-- Footer -->
 <footer class="footer">
     <div class="footer-container">
@@ -245,6 +555,7 @@ window.addEventListener("click", () => {
       <p>© 2025 THE CANDYCORE MUSEUM</p>
     </div>
   </footer>
+
   <script>
     const characterDescriptions = [
       `Hello Kitty là cô mèo trắng xinh xắn với chiếc nơ đỏ trên tai, biểu tượng của sự dễ thương vượt thời gian. Cô luôn thân thiện, thích kết bạn và chia sẻ những niềm vui nhỏ. Hello Kitty còn đại diện cho tình bạn, sự lạc quan và nét ngọt ngào nhẹ nhàng. Cô luôn khiến mọi người cảm thấy ấm áp và hạnh phúc khi ở bên.`,
@@ -272,4 +583,145 @@ window.addEventListener("click", () => {
       }
     });
     </script>
+
+<!-- HTML CHO AI CHATBOT WIDGET -->
+<button id="ai-chat-bubble" class="ai-chat-bubble" onclick="toggleAIChat()">
+  <img src="images/trolyAI.jpg" alt="AI" class="ai-chat-img-bubble">
+  <span class="ai-chat-badge">AI</span>
+</button>
+
+<div id="ai-chat-window" class="ai-chat-window">
+  <div class="ai-chat-header">
+    <div class="ai-chat-title">
+      <img src="images/trolyAI.jpg" alt="AI Avatar" class="ai-avatar">
+      <div>
+        <strong>Candycore Assistant</strong>
+        <span class="ai-status">Đang trực tuyến</span>
+      </div>
+    </div>
+    <button class="ai-chat-close" onclick="toggleAIChat()">✕</button>
+  </div>
+  <div class="ai-chat-messages" id="aiChatMessages">
+    <div class="chat-message bot">
+      Chào bạn! Mình là trợ lý AI ngọt ngào của Candycore Shop. Hôm nay bạn cần tìm quà tặng hay có câu hỏi nào cần mình tư vấn không? Hãy nói cho mình biết nhé! 🌸
+    </div>
+  </div>
+  <div class="ai-chat-input-area">
+    <input type="text" id="aiChatInput" placeholder="Hỏi AI Candycore..." onkeydown="handleAIChatKey(event)">
+    <button onclick="sendAIChatMessage()">Gửi</button>
+  </div>
+</div>
+
+<!-- SCRIPTS CHO AI CHATBOT WIDGET -->
+<script>
+const API = 'http://localhost:5002';
+async function api(method, path, body, auth = true) {
+  const headers = { 'Content-Type': 'application/json' };
+  if (auth && typeof state !== 'undefined' && state.accessToken) {
+    headers['Authorization'] = 'Bearer ' + state.accessToken;
+  }
+  const res = await fetch(API + path, {
+    method, headers, credentials: 'include',
+    body: body ? JSON.stringify(body) : undefined
+  });
+  const data = await res.json();
+  if (!res.ok) throw data;
+  return data;
+}
+
+let isAIChatOpen = false;
+let aiChatHistory = [];
+
+function toggleAIChat() {
+  const windowEl = document.getElementById('ai-chat-window');
+  isAIChatOpen = !isAIChatOpen;
+  windowEl.classList.toggle('active', isAIChatOpen);
+  if (isAIChatOpen) {
+    document.getElementById('aiChatInput').focus();
+    const badge = document.querySelector('.ai-chat-badge');
+    if (badge) badge.style.display = 'none';
+  }
+}
+
+function handleAIChatKey(event) {
+  if (event.key === 'Enter' && !event.isComposing) {
+    event.preventDefault();
+    sendAIChatMessage();
+  }
+}
+
+async function sendAIChatMessage() {
+  const inputEl = document.getElementById('aiChatInput');
+  const msgText = inputEl.value.trim();
+  if (!msgText) return;
+
+  renderChatMessage(msgText, 'user');
+  aiChatHistory.push({ sender: 'user', text: msgText });
+  inputEl.value = '';
+
+  const messagesContainer = document.getElementById('aiChatMessages');
+  const typingIndicator = document.createElement('div');
+  typingIndicator.className = 'ai-typing-indicator';
+  typingIndicator.id = 'aiTypingIndicator';
+  typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+  messagesContainer.appendChild(typingIndicator);
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+  try {
+    const res = await api('POST', '/api/ai/chat', { message: msgText, history: aiChatHistory }, false);
+    
+    const indicator = document.getElementById('aiTypingIndicator');
+    if (indicator) indicator.remove();
+
+    if (res.success) {
+      renderChatMessage(res.data.text, 'bot', res.data.products);
+      aiChatHistory.push({ sender: 'bot', text: res.data.text });
+    } else {
+      renderChatMessage(res.message || 'Có lỗi xảy ra, bạn yêu thử lại sau nha! 💕', 'bot');
+    }
+  } catch (error) {
+    const indicator = document.getElementById('aiTypingIndicator');
+    if (indicator) indicator.remove();
+    console.error("Lỗi gửi tin nhắn AI:", error);
+    renderChatMessage(error.message || 'Có lỗi xảy ra khi kết nối với AI, bạn yêu thử lại sau nha! 💕', 'bot');
+  }
+}
+
+function renderChatMessage(text, sender, products = []) {
+  const messagesContainer = document.getElementById('aiChatMessages');
+  
+  const msgEl = document.createElement('div');
+  msgEl.className = `chat-message ${sender}`;
+  msgEl.innerHTML = text.replace(/\n/g, '<br>');
+  messagesContainer.appendChild(msgEl);
+
+  if (products && products.length > 0) {
+    products.forEach(p => {
+      const cardEl = document.createElement('div');
+      cardEl.className = 'chat-product-card';
+      
+      const formattedPrice = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(p.price);
+      
+      cardEl.innerHTML = `
+        <img src="${encodeURI(p.imageUrl)}" alt="${p.productName}" class="chat-product-img">
+        <div class="chat-product-info">
+          <div class="chat-product-name">${p.productName}</div>
+          <div class="chat-product-price">${formattedPrice}</div>
+        </div>
+        <button class="chat-product-btn" onclick="viewProductFromChat(${p.productId || p.id})">Xem</button>
+      `;
+      messagesContainer.appendChild(cardEl);
+    });
+  }
+
+  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+function viewProductFromChat(productId) {
+  // Với trang chủ, nút Xem sẽ mở trang shop và xem chi tiết sản phẩm
+  window.open(`shop.html?productId=${productId}`, '_blank');
+}
+</script>
+</body>
+</html>
     
