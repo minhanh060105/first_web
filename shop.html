@@ -1148,7 +1148,7 @@ tr:hover td { background: rgba(255,110,180,0.03); }
 // ══════════════════════════════════════════════
 //  CONFIG
 // ══════════════════════════════════════════════
-const API = 'http://localhost:5002';
+const API = window.BACKEND_URL || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5002' : '');
 
 // ══════════════════════════════════════════════
 //  STATE
